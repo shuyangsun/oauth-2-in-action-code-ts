@@ -54,7 +54,7 @@ app.get('/callback', async (c) => {
   );
 });
 
-app.get('/fetch-resource', (c) => {
+app.get('/fetch-resource', async (c) => {
   /*
    * TODO: Use the access token to call the resource server
    */

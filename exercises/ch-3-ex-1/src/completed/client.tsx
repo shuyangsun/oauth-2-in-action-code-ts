@@ -21,7 +21,7 @@ const client: ClientConfig = {
   scope: undefined, // not needed for this exercise
 };
 
-// const protectedResource = 'http://localhost:9002/resource';
+const protectedResource = 'http://localhost:9002/resource';
 
 let state: string | undefined = undefined;
 let accessToken: string | undefined = undefined;
@@ -91,10 +91,21 @@ app.get('/callback', async (c) => {
   return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
 });
 
-app.get('/fetch-resource', (c) => {
-  /*
-   * TODO: Use the access token to call the resource server
-   */
+app.get('/fetch-resource', async (c) => {
+  if (!accessToken) {
+    return c.redirect(`/?error=${encodeURIComponent('no access token found')}`);
+  }
+  const headers = {
+    Authorization: 'Bearer ' + accessToken,
+  };
+  const response = await fetch(protectedResource, {
+    method: 'POST',
+    headers,
+  });
+  const responseJson = await response.json();
+  if (responseJson.error) {
+    return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
+  }
   return c.html(
     <ErrorPage name={pageName} error={`/fetch-resource not implemented`} />,
   );
