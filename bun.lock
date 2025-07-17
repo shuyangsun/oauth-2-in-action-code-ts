@@ -37,6 +37,9 @@
     "packages/shared": {
       "name": "shared",
       "version": "1.0.0",
+      "dependencies": {
+        "hono": "^4.8.5",
+      },
     },
   },
   "packages": {
