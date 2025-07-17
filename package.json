@@ -30,11 +30,11 @@
   },
   "lint-staged": {
     "**/*.{js,ts,jsx,tsx}": [
-      "bun run lint",
-      "bun run format"
+      "bunx eslint --fix",
+      "bunx prettier --write"
     ],
     "**/*.{json,md}": [
-      "bun run format"
+      "bunx prettier --write"
     ]
   }
 }
