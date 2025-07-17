@@ -29,6 +29,8 @@
         "shared": "workspace:*",
       },
       "devDependencies": {
+        "@tailwindcss/vite": "^4.1.11",
+        "tailwindcss": "^4.1.11",
         "vite-plugin-static-copy": "^1.0.1",
       },
     },

@@ -12,7 +12,7 @@ export default defineConfig({
       targets: [
         {
           src: '../../packages/shared/*.js',
-          dest: 'files/shared',
+          dest: './src/files/shared',
         },
         {
           src: '../../packages/shared/style.css',

@@ -14,10 +14,6 @@ export default defineConfig({
           src: '../../packages/shared/*.js',
           dest: 'files/shared',
         },
-        {
-          src: '../../packages/shared/style.css',
-          dest: '.',
-        },
       ],
     }),
     devServer({
