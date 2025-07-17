@@ -3,7 +3,7 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from '../files/client/ClientHome';
 import { ErrorPage } from '../files/shared/Error';
 
-import { buildUrl } from '../files/shared/util';
+import { buildUrl, encodeClientCredentials } from '../files/shared/util';
 import {
   AuthServerConfig,
   ClientConfig,
@@ -16,7 +16,7 @@ const authServer: AuthServerConfig = {
 
 const client: ClientConfig = {
   clientId: 'oauth-client-1',
-  clientSecret: 'oauth-client-secret',
+  clientSecret: 'oauth-client-secret-1',
   redirectUris: ['http://localhost:9000/callback'],
   scope: undefined, // not needed for this exercise
 };
@@ -38,13 +38,46 @@ app.get('/authorize', (c) => {
   return c.redirect(url);
 });
 
-app.get('/callback', (c) => {
-  /*
-   * TODO: Parse the response from the authorization server and get a token
-   */
-  return c.html(
-    <ErrorPage name={pageName} error={`/callback not implemented`} />,
-  );
+app.get('/callback', async (c) => {
+  const code = c.req.query('code');
+  if (!code) {
+    return c.redirect(
+      `/?error=${encodeURIComponent('no authorization code from auth server')}`,
+    );
+  }
+
+  const tokenApiHeaders = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization:
+      'Basic ' + encodeClientCredentials(client.clientId, client.clientSecret),
+  };
+  const tokenApiFormData = {
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: client.redirectUris[0], // must include for security reasons
+  };
+  const tokenResponse = await fetch(authServer.tokenEndpoint, {
+    method: 'POST',
+    headers: tokenApiHeaders,
+    body: new URLSearchParams(tokenApiFormData),
+  });
+
+  const responseJson = await tokenResponse.json();
+  if (responseJson.error) {
+    return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
+  }
+  const accessToken = responseJson.access_token;
+  if (!accessToken) {
+    return c.redirect(
+      `/?error=${encodeURIComponent('no access token from auth server')}`,
+    );
+  }
+  if (responseJson.token_type !== 'Bearer') {
+    return c.redirect(
+      `/?error=${encodeURIComponent('unrecognized token type')}`,
+    );
+  }
+  return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
 });
 
 app.get('/fetch-resource', (c) => {
@@ -57,6 +90,10 @@ app.get('/fetch-resource', (c) => {
 });
 
 app.get('/', (c) => {
+  const error = c.req.query('error');
+  if (error) {
+    return c.html(<ErrorPage name={pageName} error={error} />);
+  }
   return c.html(<ClientHome accessToken={undefined} scope={undefined} />);
 });
 

@@ -42,7 +42,7 @@ app.get('/authorize', (c) => {
   );
 });
 
-app.get('/callback', (c) => {
+app.get('/callback', async (c) => {
   /*
    * TODO: Parse the response from the authorization server and get a token
    */

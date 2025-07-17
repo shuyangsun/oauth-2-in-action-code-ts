@@ -189,15 +189,13 @@ app.post('/token', async (c) => {
 
   const client = getClientConfig(clientId);
   if (!client) {
-    console.log('Unknown client %s', clientId);
+    console.log(`Unknown client ${clientId}`);
     return c.json({ error: 'invalid_client' }, 401);
   }
 
   if (client.clientSecret != clientSecret) {
     console.log(
-      'Mismatched client secret, expected %s got %s',
-      client.clientSecret,
-      clientSecret,
+      `Mismatched client secret, expected ${client.clientSecret} got ${clientSecret}`,
     );
     return c.json({ error: 'invalid_client' }, 401);
   }
@@ -222,8 +220,8 @@ app.post('/token', async (c) => {
           scope: cscope,
         });
 
-        console.log('Issuing access token %s', accessToken);
-        console.log('with scope %s', cscope);
+        console.log(`Issuing access token ${accessToken}`);
+        console.log(`with scope ${cscope}`);
 
         const token_response = {
           access_token: accessToken,
@@ -231,22 +229,20 @@ app.post('/token', async (c) => {
           scope: cscope,
         };
 
-        console.log('Issued tokens for code %s', body.code as string);
+        console.log(`Issued tokens for code ${body.code as string}`);
         return c.json(token_response);
       } else {
         console.log(
-          'Client mismatch, expected %s got %s',
-          code.authorizationEndpointRequest.client_id,
-          clientId,
+          `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
         );
         return c.json({ error: 'invalid_grant' }, 400);
       }
     } else {
-      console.log('Unknown code, %s', body.code as string);
+      console.log(`Unknown code ${body.code as string}`);
       return c.json({ error: 'invalid_grant' }, 400);
     }
   } else {
-    console.log('Unknown grant type %s', body.grant_type as string);
+    console.log(`Unknown grant type ${body.grant_type as string}`);
     return c.json({ error: 'unsupported_grant_type' }, 400);
   }
 });
