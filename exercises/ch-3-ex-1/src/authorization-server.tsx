@@ -26,6 +26,15 @@ const clients: ClientConfig[] = [
   },
 ];
 
+// const codes: Record<
+//   string,
+//   {
+//     authorizationEndpointRequest: string;
+//     scope: string;
+//     user: string;
+//   }
+// > = {};
+
 const requests: Record<string, Record<string, string>> = {};
 
 function getClientConfig(

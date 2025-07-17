@@ -3,7 +3,7 @@ import { Layout } from './Layout';
 import { Navbar } from './Navbar';
 
 interface Props {
-  error: string | undefined;
+  error: string;
 }
 
 export const ErrorPage: FC<Props> = ({ error }: Props) => {
@@ -11,9 +11,15 @@ export const ErrorPage: FC<Props> = ({ error }: Props) => {
     <Layout>
       <Navbar name="OAuth Client" />
 
-      <div>
-        <h2>Error</h2>
-        <p>{error ?? 'NONE'}</p>
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
+          <h2 className="text-2xl font-bold text-white mb-4">Error</h2>
+          <div className="space-y-3">
+            <div className="font-mono text-sm text-red-400 px-3 py-1 mt-2">
+              {error}
+            </div>
+          </div>
+        </div>
       </div>
     </Layout>
   );
