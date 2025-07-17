@@ -4,7 +4,7 @@ import { ClientHome } from './files/client/Index';
 const app = new Hono();
 
 app.get('/', (c) => {
-  return c.html(<ClientHome accessToken={undefined} />);
+  return c.html(<ClientHome accessToken={undefined} scope={undefined} />);
 });
 
 app.get('/ping', (c) => {
