@@ -21,7 +21,7 @@ const Scope: FC<{ scopes: string[] }> = ({ scopes }: { scopes: string[] }) => {
             <input
               type="checkbox"
               name={`scope_${scope}`}
-              value="true"
+              value="1"
               id={`scope_${scope}`}
               defaultChecked
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
@@ -71,7 +71,7 @@ export const Approve: FC<Prop> = ({
             <div className="flex flex-col sm:flex-row gap-4 pt-8">
               <button
                 type="submit"
-                name="approved"
+                name="approve"
                 value="true"
                 className="flex-1 bg-green-600 border-2 border-green-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-green-700 hover:border-green-600 transition-colors shadow-lg cursor-pointer"
               >
@@ -79,7 +79,7 @@ export const Approve: FC<Prop> = ({
               </button>
               <button
                 type="submit"
-                name="approved"
+                name="approve"
                 value="false"
                 className="flex-1 bg-red-600 border-2 border-red-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-red-700 hover:border-red-600 transition-colors shadow-lg cursor-pointer"
               >

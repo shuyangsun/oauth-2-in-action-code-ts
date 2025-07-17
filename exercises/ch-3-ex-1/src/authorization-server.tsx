@@ -26,14 +26,14 @@ const clients: ClientConfig[] = [
   },
 ];
 
-// const codes: Record<
-//   string,
-//   {
-//     authorizationEndpointRequest: string;
-//     scope: string;
-//     user: string;
-//   }
-// > = {};
+const codes: Record<
+  string,
+  {
+    authorizationEndpointRequest: Record<string, string>;
+    scope: string[] | undefined;
+    user: string;
+  }
+> = {};
 
 const requests: Record<string, Record<string, string>> = {};
 
@@ -69,9 +69,13 @@ app.get('/authorize', (c) => {
     return c.html(<ErrorPage error={error} />, 400);
   } else {
     const reqScope = c.req.query('scope');
-    const rscope = reqScope ? reqScope.split(' ') : undefined;
-    const cscope = client.scope ? client.scope.split(' ') : undefined;
-    if (rscope && cscope && rscope.some((scope) => !cscope.includes(scope))) {
+    const reqScopes = reqScope ? reqScope.split(' ') : undefined;
+    const clienScopes = client.scope ? client.scope.split(' ') : undefined;
+    if (
+      reqScopes &&
+      clienScopes &&
+      reqScopes.some((scope) => !clienScopes.includes(scope))
+    ) {
       // client asked for a scope it couldn't have
       const url = new URL(redirectUri);
       url.search = '';
@@ -85,7 +89,7 @@ app.get('/authorize', (c) => {
 
     return c.html(
       <Approve
-        {...{ clientConfig: client, requestId: reqid, scopes: rscope }}
+        {...{ clientConfig: client, requestId: reqid, scopes: reqScopes }}
       />,
     );
   }
@@ -102,65 +106,53 @@ app.post('/approve', async (c) => {
     return c.html(<ErrorPage error="No matching authorization request" />, 500);
   }
 
-  if (body) {
-    console.log(JSON.stringify(query));
-    console.log(JSON.stringify(body));
-    //   if (query.response_type == 'code') {
-    //     // user approved access
-    //     const code = randomstring.generate(8);
-
-    //     const user = req.body.user;
-
-    //     const scope = __.filter(__.keys(req.body), function (s) {
-    //       return __.string.startsWith(s, 'scope_');
-    //     }).map(function (s) {
-    //       return s.slice('scope_'.length);
-    //     });
-    //     const client = getClient(query.client_id);
-    //     const cscope = client.scope ? client.scope.split(' ') : undefined;
-    //     if (__.difference(scope, cscope).length > 0) {
-    //       // client asked for a scope it couldn't have
-    //       var urlParsed = url.parse(query.redirect_uri);
-    //       delete urlParsed.search; // this is a weird behavior of the URL library
-    //       urlParsed.query = urlParsed.query || {};
-    //       urlParsed.query.error = 'invalid_scope';
-    //       res.redirect(url.format(urlParsed));
-    //       return;
-    //     }
-
-    //     // save the code and request for later
-    //     codes[code] = {
-    //       authorizationEndpointRequest: query,
-    //       scope: scope,
-    //       user: user,
-    //     };
-
-    //     var urlParsed = url.parse(query.redirect_uri);
-    //     delete urlParsed.search; // this is a weird behavior of the URL library
-    //     urlParsed.query = urlParsed.query || {};
-    //     urlParsed.query.code = code;
-    //     urlParsed.query.state = query.state;
-    //     res.redirect(url.format(urlParsed));
-    //     return;
-    //   } else {
-    //     // we got a response type we don't understand
-    //     var urlParsed = url.parse(query.redirect_uri);
-    //     delete urlParsed.search; // this is a weird behavior of the URL library
-    //     urlParsed.query = urlParsed.query || {};
-    //     urlParsed.query.error = 'unsupported_response_type';
-    //     res.redirect(url.format(urlParsed));
-    //     return;
-    //   }
-    // } else {
-    //   // user denied access
-    //   var urlParsed = url.parse(query.redirect_uri);
-    //   delete urlParsed.search; // this is a weird behavior of the URL library
-    //   urlParsed.query = urlParsed.query || {};
-    //   urlParsed.query.error = 'access_denied';
-    //   res.redirect(url.format(urlParsed));
-    //   return;
+  const url = new URL(query.redirect_uri);
+  url.search = '';
+  if (body.approve !== 'true') {
+    // User denied acccess
+    url.searchParams.set('error', 'access_denied');
+    return c.redirect(url.toString());
   }
-  return c.text('hi');
+
+  // User approved access
+  if (query.response_type == 'code') {
+    // user approved access
+    const code = Math.random().toString(36).substring(2, 10);
+
+    const user = body.user as string;
+    const approvedScopes = Object.keys(body)
+      .filter((key) => key.startsWith('scope_'))
+      .map((key) => key.slice('scope_'.length));
+    const client = getClientConfig(query.client_id);
+
+    const clienScopes = client?.scope ? client.scope.split(' ') : undefined;
+    if (
+      approvedScopes &&
+      clienScopes &&
+      approvedScopes.some((scope) => !clienScopes.includes(scope))
+    ) {
+      // client asked for a scope it couldn't have
+      url.searchParams.set('error', 'invalid_scope');
+      return c.redirect(url.toString());
+    }
+
+    // save the code and request for later
+    codes[code] = {
+      authorizationEndpointRequest: query,
+      scope: approvedScopes,
+      user: user,
+    };
+
+    url.searchParams.set('code', code);
+    if (query.state) {
+      url.searchParams.set('state', query.state);
+    }
+    return c.redirect(url.toString());
+  } else {
+    // we got a response type we don't understand
+    url.searchParams.set('error', 'unsupported_response_type');
+    return c.redirect(url.toString());
+  }
 });
 
 app.get('/ping', (c) => {
