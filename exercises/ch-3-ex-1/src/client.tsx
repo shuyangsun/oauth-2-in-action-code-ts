@@ -1,9 +1,10 @@
 import { Hono } from 'hono';
+import { ClientHome } from './files/client/Index';
 
 const app = new Hono();
 
 app.get('/', (c) => {
-  return c.text('Hello client!');
+  return c.html(<ClientHome accessToken={undefined} />);
 });
 
 app.get('/ping', (c) => {

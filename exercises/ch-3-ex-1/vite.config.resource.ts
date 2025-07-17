@@ -5,11 +5,11 @@ import build from '@hono/vite-build/bun';
 export default defineConfig({
   plugins: [
     devServer({
-      entry: 'src/protected-resource.ts',
+      entry: 'src/protected-resource.tsx',
     }),
     build({
       outputDir: 'dist/protected-resource',
-      entry: 'src/protected-resource.ts',
+      entry: 'src/protected-resource.tsx',
     }),
   ],
   server: {

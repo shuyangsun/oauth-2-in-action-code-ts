@@ -5,11 +5,11 @@ import build from '@hono/vite-build/bun';
 export default defineConfig({
   plugins: [
     devServer({
-      entry: 'src/client.ts',
+      entry: 'src/client.tsx',
     }),
     build({
       outputDir: 'dist/client',
-      entry: 'src/client.ts',
+      entry: 'src/client.tsx',
     }),
   ],
   server: {
