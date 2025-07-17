@@ -23,6 +23,9 @@ const client: ClientConfig = {
 
 // const protectedResource = 'http://localhost:9002/resource';
 
+let state: string | undefined = undefined;
+let accessToken: string | undefined = undefined;
+
 const pageName = 'OAuth Client';
 
 const app = new Hono();
@@ -30,15 +33,23 @@ const app = new Hono();
 app.use('/files/*', serveStatic({ root: './src' }));
 
 app.get('/authorize', (c) => {
+  state = Math.random().toString(36).substring(2, 10);
   const url = buildUrl(authServer.authorizationEndpoint, {
     response_type: 'code',
     client_id: client.clientId,
     redirect_uri: client.redirectUris[0],
+    state: state,
   });
   return c.redirect(url);
 });
 
 app.get('/callback', async (c) => {
+  const callbackState = c.req.query('state');
+  if (callbackState !== state) {
+    return c.redirect(`/?error=${encodeURIComponent('state mismatched')}`);
+  }
+  state = undefined;
+
   const code = c.req.query('code');
   if (!code) {
     return c.redirect(
@@ -66,7 +77,7 @@ app.get('/callback', async (c) => {
   if (responseJson.error) {
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
-  const accessToken = responseJson.access_token;
+  accessToken = responseJson.access_token;
   if (!accessToken) {
     return c.redirect(
       `/?error=${encodeURIComponent('no access token from auth server')}`,

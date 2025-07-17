@@ -25,6 +25,9 @@ const client: ClientConfig = {
 
 const protectedResource = 'TODO: assign endpoint';
 
+let state: string | undefined = undefined;
+let access_token: string | undefined = undefined;
+
 */
 
 const pageName = 'OAuth Client';
