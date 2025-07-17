@@ -38,7 +38,7 @@ export const Main: FC<Prop> = ({ accessToken, scope }: Prop) => {
           Get OAuth Token
         </a>
         <a
-          href={accessToken ? '/fetch_resource' : '#'}
+          href={accessToken ? '/fetch-resource' : '#'}
           className={`flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg ${
             accessToken
               ? 'bg-green-600 border-2 border-green-500 text-white hover:bg-green-700 hover:border-green-600'

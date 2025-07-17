@@ -8,6 +8,7 @@ import {
   AuthServerConfig,
   ClientConfig,
 } from '../files/shared/model/server-configs';
+import { Data } from '../files/client/Data';
 
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'http://localhost:9001/authorize',
@@ -106,9 +107,7 @@ app.get('/fetch-resource', async (c) => {
   if (responseJson.error) {
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
-  return c.html(
-    <ErrorPage name={pageName} error={`/fetch-resource not implemented`} />,
-  );
+  return c.html(<Data {...responseJson.data} />);
 });
 
 app.get('/', (c) => {
