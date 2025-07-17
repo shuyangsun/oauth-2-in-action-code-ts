@@ -1,57 +1,31 @@
 import type { FC } from 'hono/jsx';
+import { Layout } from './Layout';
+import { Navbar } from '../shared/Navbar';
 
 interface Props {
   accessToken: string | undefined;
   scope: string | undefined;
 }
 
-const Layout: FC = (props) => {
-  return (
-    <html>
-      <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>OAuth in Action: OAuth Client</title>
-      </head>
-      <body className="min-h-screen bg-slate-800">{props.children}</body>
-    </html>
-  );
-};
-
 export const ClientHome: FC<Props> = ({ accessToken, scope }: Props) => {
   return (
     <Layout>
-      <nav className="bg-slate-900 border-b border-slate-700">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <a
-            href="/"
-            className="inline-flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-          >
-            <span className="text-xl font-light">OAuth in Action:</span>
-            <span className="text-xl font-normal text-white bg-blue-600 px-3 py-1 rounded">
-              OAuth Client
-            </span>
-          </a>
-        </div>
-      </nav>
-
+      <Navbar name="OAuth Client" />
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="bg-gray-200 rounded-lg shadow-lg p-8 space-y-6">
+        <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <span className="text-gray-600 text-lg">Access token value:</span>
+              <span className="text-gray-300 text-lg">Access token value:</span>
               <span
-                className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? 'bg-red-500 text-white' : 'bg-red-500 text-white'}`}
+                className={`font-mono text-sm px-3 py-1 ${accessToken ? 'bg-red-600 text-white' : 'bg-red-600 text-white'}`}
               >
                 {accessToken ?? 'NONE'}
               </span>
             </div>
 
             <div className="flex items-center space-x-3">
-              <span className="text-gray-600 text-lg">Scope value:</span>
-              <span className="font-mono text-sm bg-red-500 text-white px-3 py-1 rounded">
+              <span className="text-gray-300 text-lg">Scope value:</span>
+              <span className="font-mono text-sm bg-red-600 text-white px-3 py-1">
                 {scope ?? 'NONE'}
               </span>
             </div>
@@ -60,13 +34,18 @@ export const ClientHome: FC<Props> = ({ accessToken, scope }: Props) => {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <a
               href="/authorize"
-              className="flex-1 bg-white border-2 border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-md text-center hover:bg-gray-50 hover:border-gray-400 transition-colors"
+              className="flex-1 bg-blue-600 border-2 border-blue-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-blue-700 hover:border-blue-600 transition-colors shadow-lg"
             >
               Get OAuth Token
             </a>
             <a
-              href="/fetch_resource"
-              className="flex-1 bg-white border-2 border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-md text-center hover:bg-gray-50 hover:border-gray-400 transition-colors"
+              href={accessToken ? '/fetch_resource' : '#'}
+              className={`flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg ${
+                accessToken
+                  ? 'bg-green-600 border-2 border-green-500 text-white hover:bg-green-700 hover:border-green-600'
+                  : 'bg-gray-500 border-2 border-gray-400 text-gray-300 cursor-not-allowed'
+              }`}
+              onClick={accessToken ? undefined : (e) => e.preventDefault()}
             >
               Get Protected Resource
             </a>
