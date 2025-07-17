@@ -62,11 +62,11 @@ app.get('/authorize', (c) => {
   if (!client) {
     const error = clientId ? `Unknown client "${clientId}"` : 'No client ID';
     console.log(error);
-    return c.html(<ErrorPage error={error} />);
+    return c.html(<ErrorPage error={error} />, 400);
   } else if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
     const error = `Mismatched redirect URI, expected ${client.redirectUris.join(', ')} got ${redirectUri}`;
     console.log(error);
-    return c.html(<ErrorPage error={error} />);
+    return c.html(<ErrorPage error={error} />, 400);
   } else {
     const reqScope = c.req.query('scope');
     const rscope = reqScope ? reqScope.split(' ') : undefined;
@@ -89,6 +89,78 @@ app.get('/authorize', (c) => {
       />,
     );
   }
+});
+
+app.post('/approve', async (c) => {
+  const body = await c.req.parseBody();
+  const reqid = body.reqid as string;
+  const query = requests[reqid];
+  delete requests[reqid];
+
+  if (!query) {
+    // there was no matching saved request, this is a server error
+    return c.html(<ErrorPage error="No matching authorization request" />, 500);
+  }
+
+  if (body) {
+    console.log(JSON.stringify(query));
+    console.log(JSON.stringify(body));
+    //   if (query.response_type == 'code') {
+    //     // user approved access
+    //     const code = randomstring.generate(8);
+
+    //     const user = req.body.user;
+
+    //     const scope = __.filter(__.keys(req.body), function (s) {
+    //       return __.string.startsWith(s, 'scope_');
+    //     }).map(function (s) {
+    //       return s.slice('scope_'.length);
+    //     });
+    //     const client = getClient(query.client_id);
+    //     const cscope = client.scope ? client.scope.split(' ') : undefined;
+    //     if (__.difference(scope, cscope).length > 0) {
+    //       // client asked for a scope it couldn't have
+    //       var urlParsed = url.parse(query.redirect_uri);
+    //       delete urlParsed.search; // this is a weird behavior of the URL library
+    //       urlParsed.query = urlParsed.query || {};
+    //       urlParsed.query.error = 'invalid_scope';
+    //       res.redirect(url.format(urlParsed));
+    //       return;
+    //     }
+
+    //     // save the code and request for later
+    //     codes[code] = {
+    //       authorizationEndpointRequest: query,
+    //       scope: scope,
+    //       user: user,
+    //     };
+
+    //     var urlParsed = url.parse(query.redirect_uri);
+    //     delete urlParsed.search; // this is a weird behavior of the URL library
+    //     urlParsed.query = urlParsed.query || {};
+    //     urlParsed.query.code = code;
+    //     urlParsed.query.state = query.state;
+    //     res.redirect(url.format(urlParsed));
+    //     return;
+    //   } else {
+    //     // we got a response type we don't understand
+    //     var urlParsed = url.parse(query.redirect_uri);
+    //     delete urlParsed.search; // this is a weird behavior of the URL library
+    //     urlParsed.query = urlParsed.query || {};
+    //     urlParsed.query.error = 'unsupported_response_type';
+    //     res.redirect(url.format(urlParsed));
+    //     return;
+    //   }
+    // } else {
+    //   // user denied access
+    //   var urlParsed = url.parse(query.redirect_uri);
+    //   delete urlParsed.search; // this is a weird behavior of the URL library
+    //   urlParsed.query = urlParsed.query || {};
+    //   urlParsed.query.error = 'access_denied';
+    //   res.redirect(url.format(urlParsed));
+    //   return;
+  }
+  return c.text('hi');
 });
 
 app.get('/ping', (c) => {
