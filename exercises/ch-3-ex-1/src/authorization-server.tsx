@@ -71,7 +71,7 @@ app.get('/authorize', (c) => {
     const reqScope = c.req.query('scope');
     const rscope = reqScope ? reqScope.split(' ') : undefined;
     const cscope = client.scope ? client.scope.split(' ') : undefined;
-    if (rscope && cscope && cscope.some((scope) => !rscope.includes(scope))) {
+    if (rscope && cscope && rscope.some((scope) => !cscope.includes(scope))) {
       // client asked for a scope it couldn't have
       const url = new URL(redirectUri);
       url.search = '';
