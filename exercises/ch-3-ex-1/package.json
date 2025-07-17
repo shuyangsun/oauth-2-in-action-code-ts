@@ -13,7 +13,7 @@
     "dev:client": "bun vite --config vite.config.client.ts",
     "dev:auth-server": "bun vite --config vite.config.auth.ts",
     "dev:protected-resource": "bun vite --config vite.config.resource.ts",
-    "dev:client-completed": "bun vite --config vite.config.client-completed.ts"
+    "dev:client-solution": "bun vite --config vite.config.client-solution.ts"
   },
   "type": "module"
 }

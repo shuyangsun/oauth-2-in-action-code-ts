@@ -17,11 +17,12 @@ export default defineConfig({
       ],
     }),
     devServer({
-      entry: 'src/completed/client.tsx',
+      entry: 'src/client-solution.tsx',
     }),
     build({
-      outputDir: 'dist/client-completed',
-      entry: 'src/client.tsx',
+      output: 'client-solution',
+      outputDir: 'dist/client',
+      entry: 'src/client-solution.tsx',
     }),
   ],
   server: {

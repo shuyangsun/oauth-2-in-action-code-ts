@@ -2,7 +2,6 @@ import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from './files/client/ClientHome';
 import { ErrorPage } from 'shared/Error';
-import '../public/style.css';
 
 /** TODO: uncomment this block as needed
 

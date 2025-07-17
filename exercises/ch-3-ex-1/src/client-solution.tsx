@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { ClientHome } from '../files/client/ClientHome';
+import { ClientHome } from './files/client/ClientHome';
 import { ErrorPage } from 'shared/Error';
 
 import { buildUrl, encodeClientCredentials } from 'shared/util';
 import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
-import { Data } from '../files/client/Data';
+import { Data } from './files/client/Data';
 
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'http://localhost:9001/authorize',
