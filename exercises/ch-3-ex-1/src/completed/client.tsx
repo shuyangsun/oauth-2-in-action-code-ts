@@ -1,31 +1,27 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { ClientHome } from './files/client/ClientHome';
-import { ErrorPage } from './files/shared/Error';
+import { ClientHome } from '../files/client/ClientHome';
+import { ErrorPage } from '../files/shared/Error';
 
-/** TODO: uncomment this block as needed
-
-import { buildUrl, encodeClientCredentials } from './files/shared/util';
+import { buildUrl } from '../files/shared/util';
 import {
   AuthServerConfig,
   ClientConfig,
-} from './files/shared/model/server-configs';
+} from '../files/shared/model/server-configs';
 
 const authServer: AuthServerConfig = {
-  authorizationEndpoint: 'TODO: assign endpoint',
-  tokenEndpoint: 'TODO: assign endpoint',
+  authorizationEndpoint: 'http://localhost:9001/authorize',
+  tokenEndpoint: 'http://localhost:9001/token',
 };
 
 const client: ClientConfig = {
-  clientId: 'TODO: assign client ID',
-  clientSecret: 'TODO: assign client secret',
-  redirectUris: ['TODO: assign redirect URL'],
-  scope: undefined,  // not needed for this exercise
+  clientId: 'oauth-client-1',
+  clientSecret: 'oauth-client-secret',
+  redirectUris: ['http://localhost:9000/callback'],
+  scope: undefined, // not needed for this exercise
 };
 
-const protectedResource = 'TODO: assign endpoint';
-
-*/
+// const protectedResource = 'http://localhost:9002/resource';
 
 const pageName = 'OAuth Client';
 
@@ -34,12 +30,12 @@ const app = new Hono();
 app.use('/files/*', serveStatic({ root: './src' }));
 
 app.get('/authorize', (c) => {
-  /*
-   * TODO: Send the user to the authorization server
-   */
-  return c.html(
-    <ErrorPage name={pageName} error={`/authorize not implemented`} />,
-  );
+  const url = buildUrl(authServer.authorizationEndpoint, {
+    response_type: 'code',
+    client_id: client.clientId,
+    redirect_uri: client.redirectUris[0],
+  });
+  return c.redirect(url);
 });
 
 app.get('/callback', (c) => {

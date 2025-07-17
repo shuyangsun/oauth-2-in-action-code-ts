@@ -4,6 +4,7 @@ export function buildUrl(
   hash?: string,
 ): string {
   const url = new URL(base);
+  url.search = '';
 
   Object.entries(options).forEach(([key, value]) => {
     url.searchParams.set(key, value);
