@@ -1,46 +1,42 @@
+import type { FC } from 'hono/jsx';
+
 interface Props {
   accessToken: string | undefined;
 }
 
-export function ClientHome({ accessToken }: Props) {
+const Layout: FC = (props) => {
   return (
-    <html lang="en">
+    <html>
       <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="/src/files/style.css" rel="stylesheet" />
         <title>OAuth in Action: OAuth Client</title>
-        <link rel="stylesheet" href="/static/client/Index.css" />
       </head>
-      <body>
-        <nav className="navbar navbar-inverse navbar-fixed-top">
-          <div className="container">
-            <div className="navbar-header">
-              <a className="navbar-brand" href="/">
-                OAuth in Action:
-                <span className="label label-primary">OAuth Client</span>
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        <div className="container">
-          <div className="jumbotron">
-            <p>
-              Access token value:
-              <span className="label label-danger">
-                {accessToken ?? 'NONE'}
-              </span>
-            </p>
-            <a className="btn btn-default" href="/authorize">
-              Get OAuth Token
-            </a>
-            <a className="btn btn-default" href="/fetch_resource">
-              Get Protected Resource
-            </a>
-          </div>
-        </div>
-      </body>
+      <body>{props.children}</body>
     </html>
   );
-}
+};
+
+export const ClientHome: FC<Props> = ({ accessToken }: Props) => {
+  return (
+    <Layout>
+      <nav>
+        <a href="/">
+          OAuth in Action:
+          <span>OAuth Client</span>
+        </a>
+      </nav>
+
+      <div>
+        <p>
+          Access token value:
+          <span>{accessToken ?? 'NONE'}</span>
+        </p>
+        <a href="/authorize">Get OAuth Token</a>
+        <a href="/fetch_resource">Get Protected Resource</a>
+      </div>
+    </Layout>
+  );
+};
