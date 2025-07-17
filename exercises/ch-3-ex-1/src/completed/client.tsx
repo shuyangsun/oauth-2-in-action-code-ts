@@ -45,6 +45,10 @@ app.get('/authorize', (c) => {
 });
 
 app.get('/callback', async (c) => {
+  const error = c.req.query('error');
+  if (error) {
+    return c.redirect(`/?error=${encodeURIComponent(error)}`);
+  }
   const callbackState = c.req.query('state');
   if (callbackState !== state) {
     return c.redirect(`/?error=${encodeURIComponent('state mismatched')}`);
