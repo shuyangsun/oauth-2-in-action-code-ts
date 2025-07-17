@@ -1,15 +1,15 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from './files/client/ClientHome';
-import { ErrorPage } from './files/shared/Error';
+import { ErrorPage } from 'shared/Error';
 
 /** TODO: uncomment this block as needed
 
-import { buildUrl, encodeClientCredentials } from './files/shared/util';
+import { buildUrl, encodeClientCredentials } from 'shared/util';
 import {
   AuthServerConfig,
   ClientConfig,
-} from './files/shared/model/server-configs';
+} from 'shared/model/server-configs';
 
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'TODO: assign endpoint',

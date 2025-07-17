@@ -1,13 +1,10 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from '../files/client/ClientHome';
-import { ErrorPage } from '../files/shared/Error';
+import { ErrorPage } from 'shared/Error';
 
-import { buildUrl, encodeClientCredentials } from '../files/shared/util';
-import {
-  AuthServerConfig,
-  ClientConfig,
-} from '../files/shared/model/server-configs';
+import { buildUrl, encodeClientCredentials } from 'shared/util';
+import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { Data } from '../files/client/Data';
 
 const authServer: AuthServerConfig = {

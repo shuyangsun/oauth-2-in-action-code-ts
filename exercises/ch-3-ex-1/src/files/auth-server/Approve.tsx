@@ -1,7 +1,7 @@
 import type { FC } from 'hono/jsx';
-import { Layout } from '../shared/Layout';
-import { Navbar } from '../shared/Navbar';
-import { ClientConfig } from '../shared/model/server-configs';
+import { Layout } from 'shared/Layout';
+import { Navbar } from 'shared/Navbar';
+import { ClientConfig } from 'shared/model/server-configs';
 
 interface Prop {
   clientConfig: ClientConfig;

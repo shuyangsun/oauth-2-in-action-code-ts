@@ -2,7 +2,8 @@
   "name": "oauth-2-in-action-code-ts",
   "private": true,
   "workspaces": [
-    "exercises/*"
+    "exercises/*",
+    "packages/*"
   ],
   "scripts": {
     "lint": "bunx eslint --fix \"**/*.{js,ts,tsx}\"",

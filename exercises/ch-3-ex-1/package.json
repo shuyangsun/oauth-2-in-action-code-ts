@@ -1,7 +1,11 @@
 {
   "name": "ch-3-ex-1",
   "dependencies": {
-    "hono": "^4.8.5"
+    "hono": "^4.8.5",
+    "shared": "workspace:*"
+  },
+  "devDependencies": {
+    "vite-plugin-static-copy": "^1.0.1"
   },
   "scripts": {
     "dev:client": "bun vite --config vite.config.client.ts",
