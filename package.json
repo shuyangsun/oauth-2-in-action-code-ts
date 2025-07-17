@@ -10,9 +10,6 @@
     "format": "bunx prettier --write \"**/*.{js,ts,tsx,json,md}\"",
     "prepare": "husky"
   },
-  "dependencies": {
-    "hono": "^4.8.5"
-  },
   "devDependencies": {
     "@eslint/css": "^0.10.0",
     "@eslint/js": "^9.31.0",
