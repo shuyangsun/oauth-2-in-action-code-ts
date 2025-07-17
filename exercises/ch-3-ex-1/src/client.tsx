@@ -1,7 +1,10 @@
 import { Hono } from 'hono';
+import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from './files/client/Index';
 
 const app = new Hono();
+
+app.use('/files/*', serveStatic({ root: './src' }));
 
 app.get('/', (c) => {
   return c.html(<ClientHome accessToken={undefined} scope={undefined} />);
