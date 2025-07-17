@@ -155,8 +155,99 @@ app.post('/approve', async (c) => {
   }
 });
 
+app.post('/token', async (c) => {
+  const auth = c.req.header('authorization');
+  const body = await c.req.parseBody();
+  let clientId: string | undefined = undefined;
+  let clientSecret: string | undefined = undefined;
+  if (auth) {
+    // check the auth header
+    const clientCredentials = atob(auth.slice('Basic '.length)).split(':');
+    clientId = decodeURIComponent(clientCredentials[0]);
+    clientSecret = decodeURIComponent(clientCredentials[1]);
+  } else {
+    // otherwise, check the post body
+    if (body.client_id) {
+      if (clientId) {
+        // if we've already seen the client's credentials in the authorization header, this is an error
+        console.log('Client attempted to authenticate with multiple methods');
+        return c.json({ error: 'invalid_client' }, 401);
+      }
+
+      clientId = body.client_id as string;
+      clientSecret = body.client_secret as string;
+    }
+  }
+
+  const client = getClientConfig(clientId);
+  if (!client) {
+    console.log('Unknown client %s', clientId);
+    return c.json({ error: 'invalid_client' }, 401);
+  }
+
+  if (client.clientSecret != clientSecret) {
+    console.log(
+      'Mismatched client secret, expected %s got %s',
+      client.clientSecret,
+      clientSecret,
+    );
+    return c.json({ error: 'invalid_client' }, 401);
+  }
+
+  const grantType = body.grant_type as string;
+  if (grantType === 'authorization_code') {
+    const code = codes[body.code as string];
+
+    if (code) {
+      delete codes[body.code as string]; // burn our code, it's been used
+      if (code.authorizationEndpointRequest.client_id == clientId) {
+        const accessToken = Math.random().toString(36).substring(2, 10);
+
+        let cscope = null;
+        if (code.scope) {
+          cscope = code.scope.join(' ');
+        }
+
+        nosql.insert({
+          access_token: accessToken,
+          client_id: clientId,
+          scope: cscope,
+        });
+
+        console.log('Issuing access token %s', accessToken);
+        console.log('with scope %s', cscope);
+
+        const token_response = {
+          access_token: accessToken,
+          token_type: 'Bearer',
+          scope: cscope,
+        };
+
+        console.log('Issued tokens for code %s', body.code as string);
+        return c.json(token_response);
+      } else {
+        console.log(
+          'Client mismatch, expected %s got %s',
+          code.authorizationEndpointRequest.client_id,
+          clientId,
+        );
+        return c.json({ error: 'invalid_grant' }, 400);
+      }
+    } else {
+      console.log('Unknown code, %s', body.code as string);
+      return c.json({ error: 'invalid_grant' }, 400);
+    }
+  } else {
+    console.log('Unknown grant type %s', body.grant_type as string);
+    return c.json({ error: 'unsupported_grant_type' }, 400);
+  }
+});
+
 app.get('/ping', (c) => {
   return c.text('pong');
 });
+
+// clear the database on startup
+nosql.clear();
 
 export default app;
