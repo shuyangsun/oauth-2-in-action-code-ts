@@ -3,13 +3,14 @@ import { Layout } from './Layout';
 import { Navbar } from './Navbar';
 
 interface Props {
+  name: string;
   error: string;
 }
 
-export const ErrorPage: FC<Props> = ({ error }: Props) => {
+export const ErrorPage: FC<Props> = ({ name, error }: Props) => {
   return (
     <Layout>
-      <Navbar name="OAuth Client" />
+      <Navbar name={name} />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">

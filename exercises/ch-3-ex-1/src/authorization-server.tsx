@@ -11,6 +11,8 @@ import { load } from '../src/files/shared/nosql';
 
 const app = new Hono();
 
+const pageName = 'OAuth Authorization Server';
+
 // Authorization server information
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'http://localhost:9001/authorize',
@@ -63,11 +65,11 @@ app.get('/authorize', (c) => {
   if (!client) {
     const error = clientId ? `Unknown client "${clientId}"` : 'No client ID';
     console.log(error);
-    return c.html(<ErrorPage error={error} />, 400);
+    return c.html(<ErrorPage name={pageName} error={error} />, 400);
   } else if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
     const error = `Mismatched redirect URI, expected ${client.redirectUris.join(', ')} got ${redirectUri}`;
     console.log(error);
-    return c.html(<ErrorPage error={error} />, 400);
+    return c.html(<ErrorPage name={pageName} error={error} />, 400);
   } else {
     const reqScope = c.req.query('scope');
     const reqScopes = reqScope ? reqScope.split(' ') : undefined;
@@ -104,7 +106,10 @@ app.post('/approve', async (c) => {
 
   if (!query) {
     // there was no matching saved request, this is a server error
-    return c.html(<ErrorPage error="No matching authorization request" />, 500);
+    return c.html(
+      <ErrorPage name={pageName} error="No matching authorization request" />,
+      500,
+    );
   }
 
   const url = new URL(query.redirect_uri);
