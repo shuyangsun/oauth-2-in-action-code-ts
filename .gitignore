@@ -1,0 +1,17 @@
+# System
+.DS_Store
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+.idea
+*.swp
+*.swo
+*~
+.vim/
+.sublime-workspace
+.sublime-project
+.eclipse/
+
+# Dependencies
+node_modules/
