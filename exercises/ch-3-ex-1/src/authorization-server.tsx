@@ -7,6 +7,7 @@ import {
 import { AuthServerHome } from './files/auth-server/AuthServerHome';
 import { ErrorPage } from './files/shared/Error';
 import { Approve } from './files/auth-server/Approve';
+import { load } from '../src/files/shared/nosql';
 
 const app = new Hono();
 
@@ -155,6 +156,8 @@ app.post('/approve', async (c) => {
   }
 });
 
+const nosql = load('database.nosql', { autoSave: true });
+
 app.post('/token', async (c) => {
   const auth = c.req.header('authorization');
   const body = await c.req.parseBody();
@@ -203,9 +206,9 @@ app.post('/token', async (c) => {
       if (code.authorizationEndpointRequest.client_id == clientId) {
         const accessToken = Math.random().toString(36).substring(2, 10);
 
-        let cscope = null;
+        let cscope: string[] | undefined = undefined;
         if (code.scope) {
-          cscope = code.scope.join(' ');
+          cscope = code.scope;
         }
 
         nosql.insert({
