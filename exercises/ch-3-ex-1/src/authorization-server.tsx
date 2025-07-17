@@ -85,7 +85,7 @@ app.get('/authorize', (c) => {
 
     return c.html(
       <Approve
-        {...{ clientConfig: client, requestId: reqid, scope: rscope }}
+        {...{ clientConfig: client, requestId: reqid, scopes: rscope }}
       />,
     );
   }

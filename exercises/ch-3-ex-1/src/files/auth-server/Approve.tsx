@@ -6,17 +6,37 @@ import { ClientConfig } from '../shared/model/server-configs';
 interface Prop {
   clientConfig: ClientConfig;
   requestId: string;
-  scope: string[] | undefined;
+  scopes: string[] | undefined;
 }
 
-export const Approve: FC<Prop> = ({ clientConfig, requestId, scope }: Prop) => {
+const Scope: FC<{ scopes: string[] }> = ({ scopes }: { scopes: string[] }) => {
+  return (
+    <>
+      <h2>Scope</h2>
+      <ul>
+        {scopes.map((scope) => (
+          <li key={scope}>scope</li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
+export const Approve: FC<Prop> = ({
+  clientConfig,
+  requestId,
+  scopes,
+}: Prop) => {
   return (
     <Layout>
       <Navbar name="OAuth Authorization Server" />
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
+        <h2>Approve this client?</h2>
         <p>
-          TODO: approve page {clientConfig}, {requestId}, {scope}
+          ID: <span>{clientConfig.clientId}</span>
         </p>
+        {scopes && <Scope scopes={scopes} />}
+        <p>TODO: approve page {requestId}</p>
       </div>
     </Layout>
   );
