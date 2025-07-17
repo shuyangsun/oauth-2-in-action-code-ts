@@ -1,7 +1,7 @@
 import type { FC } from 'hono/jsx';
-import { Layout } from 'shared/Layout';
-import { Navbar } from 'shared/Navbar';
-import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
+import { Layout } from '../common/Layout';
+import { Navbar } from '../common/Navbar';
+import { AuthServerConfig, ClientConfig } from '../../model/server-configs';
 
 interface Prop {
   authServerConfig: AuthServerConfig;

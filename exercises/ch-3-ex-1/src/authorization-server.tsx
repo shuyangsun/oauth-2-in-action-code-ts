@@ -1,10 +1,10 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
-import { AuthServerHome } from './files/auth-server/AuthServerHome';
-import { ErrorPage } from 'shared/Error';
-import { Approve } from './files/auth-server/Approve';
-import { load } from 'shared/nosql';
+import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
+import { ErrorPage } from 'shared/components/common/Error';
+import { Approve } from 'shared/components/auth-server/Approve';
+import { load } from 'shared/model/nosql';
 
 const app = new Hono();
 

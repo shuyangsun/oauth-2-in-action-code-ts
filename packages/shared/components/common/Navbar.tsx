@@ -1,4 +1,4 @@
-import { ServerStatus } from 'shared/ServerStatus';
+import { ServerStatus } from './ServerStatus';
 import type { FC } from 'hono/jsx';
 
 interface Props {

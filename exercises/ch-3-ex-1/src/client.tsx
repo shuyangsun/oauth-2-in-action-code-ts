@@ -1,15 +1,13 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { ClientHome } from './files/client/ClientHome';
-import { ErrorPage } from 'shared/Error';
+import { ClientHome } from 'shared/components/client/ClientHome';
+import { ErrorPage } from 'shared/components/common/Error';
+import { Data } from 'shared/components/client/Data';
 
 /** TODO: uncomment this block as needed
 
-import { buildUrl, encodeClientCredentials } from 'shared/util';
-import {
-  AuthServerConfig,
-  ClientConfig,
-} from 'shared/model/server-configs';
+import { buildUrl, encodeClientCredentials } from 'shared/util/util';
+import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'TODO: assign endpoint',
@@ -58,9 +56,7 @@ app.get('/fetch-resource', async (c) => {
   /*
    * TODO: Use the access token to call the resource server
    */
-  return c.html(
-    <ErrorPage name={pageName} error={`/fetch-resource not implemented`} />,
-  );
+  return c.html(<Data name="TODO" description="Unimplemented" />);
 });
 
 app.get('/', (c) => {

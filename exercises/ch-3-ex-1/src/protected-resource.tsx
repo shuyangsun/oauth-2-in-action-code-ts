@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
-import { createMiddleware } from 'hono/factory';
-import { ProtectedResourceHome } from './files/protected-resource/ProtectedResourceHome';
 import { serveStatic } from '@hono/node-server/serve-static';
+import { createMiddleware } from 'hono/factory';
+import { ProtectedResourceHome } from 'shared/components/protected-resource/ProtectedResourceHome';
 
 // Define the type for context variables
 type Variables = {

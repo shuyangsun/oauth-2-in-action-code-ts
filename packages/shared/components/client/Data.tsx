@@ -1,6 +1,6 @@
 import type { FC } from 'hono/jsx';
-import { Layout } from 'shared/Layout';
-import { Navbar } from 'shared/Navbar';
+import { Layout } from '../common/Layout';
+import { Navbar } from '../common/Navbar';
 
 interface Props {
   name: string | undefined;
