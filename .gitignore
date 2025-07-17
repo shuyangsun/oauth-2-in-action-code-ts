@@ -15,3 +15,6 @@
 
 # Dependencies
 node_modules/
+
+# Distribution
+dist/

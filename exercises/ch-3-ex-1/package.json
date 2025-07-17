@@ -1,0 +1,19 @@
+{
+  "name": "ch-3-ex-1",
+  "dependencies": {
+    "hono": "^4.8.5"
+  },
+  "scripts": {
+    "dev:client": "bun vite --config vite.config.client.ts",
+    "dev:auth-server": "bun vite --config vite.config.auth.ts",
+    "dev:protected-resource": "bun vite --config vite.config.resource.ts",
+    "build:all": "bun run build:client && bun run build:auth-server && bun run build:protected-resource",
+    "build:client": "bun vite build --config vite.config.client.ts",
+    "build:auth-server": "bun vite build --config vite.config.auth.ts",
+    "build:protected-resource": "bun vite build --config vite.config.resource.ts",
+    "start:client": "PORT=9000 bun ./dist/client/index.js",
+    "start:auth-server": "PORT=9001 bun ./dist/authorization-server/index.js",
+    "start:protected-resource": "PORT=9002 bun ./dist/protected-resource/index.js"
+  },
+  "type": "module"
+}
