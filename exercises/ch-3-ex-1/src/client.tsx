@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { ClientHome } from './files/client/Index';
+import { ClientHome } from './files/client/ClientHome';
 
 const app = new Hono();
 
