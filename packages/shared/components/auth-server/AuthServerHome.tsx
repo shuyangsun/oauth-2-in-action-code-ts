@@ -135,7 +135,7 @@ const ClientsInfo: FC<{ configs: ClientConfig[] }> = ({
           <ClientInfo key={config.clientId} config={config} />
         ))}
       </div>
-      <script src="/files/shared/toggle-card.js"></script>
+      <script src="/client-scripts/toggle-card.js"></script>
     </div>
   );
 };
