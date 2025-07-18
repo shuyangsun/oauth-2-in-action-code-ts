@@ -28,7 +28,7 @@ const pageName = 'OAuth Client';
 
 const app = new Hono();
 
-app.use('/files/*', serveStatic({ root: '../../public' }));
+app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/authorize', (c) => {
   state = Math.random().toString(36).substring(2, 10);
