@@ -54,7 +54,6 @@ exercises
 │   ├── database.nosql
 │   └── ...
 └── ch-3-ex-2
-    ├── authorizationServer.tsx
     └── ...
 ```
 
