@@ -90,6 +90,9 @@ app.get('/callback', async (c) => {
     );
   }
   accessToken = responseJson.access_token;
+  /**
+   * TODO: store refresh token.
+   */
   return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
 });
 
@@ -106,6 +109,9 @@ app.get('/fetch-resource', async (c) => {
   });
   const responseJson = await response.json();
   if (responseJson.error) {
+    /**
+     * TODO: use refresh token to get a new access token.
+     */
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
   return c.html(<Data {...responseJson.data} />);

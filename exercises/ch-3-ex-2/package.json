@@ -1,0 +1,14 @@
+{
+  "name": "ch-3-ex-2",
+  "dependencies": {
+    "hono": "^4.8.5",
+    "shared": "workspace:*"
+  },
+  "scripts": {
+    "dev:client": "bun vite --config vite/vite.config.client.ts",
+    "dev:auth-server": "bun vite --config vite/vite.config.auth.ts",
+    "dev:protected-resource": "bun vite --config vite/vite.config.resource.ts",
+    "dev:client-solution": "bun vite --config vite/vite.config.client-solution.ts"
+  },
+  "type": "module"
+}
