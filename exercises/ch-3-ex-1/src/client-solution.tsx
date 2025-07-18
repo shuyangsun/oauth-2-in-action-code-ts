@@ -3,7 +3,11 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from 'shared/components/client/ClientHome';
 import { ErrorPage } from 'shared/components/common/Error';
 
-import { buildUrl, encodeClientCredentials } from 'shared/util/util';
+import {
+  buildUrl,
+  encodeClientCredentials,
+  generateRandomString,
+} from 'shared/util/util';
 import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { Data } from 'shared/components/client/Data';
 
@@ -31,7 +35,7 @@ const app = new Hono();
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/authorize', (c) => {
-  state = Math.random().toString(36).substring(2, 10);
+  state = generateRandomString(8);
   const url = buildUrl(authServer.authorizationEndpoint, {
     response_type: 'code',
     client_id: client.clientId,

@@ -5,6 +5,7 @@ import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
 import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
 import { load } from 'shared/model/nosql';
+import { generateRandomString } from 'shared/util/util';
 
 const pageName = 'OAuth Authorization Server';
 
@@ -204,7 +205,7 @@ app.post('/token', async (c) => {
     if (code) {
       delete codes[body.code as string]; // burn our code, it's been used
       if (code.authorizationEndpointRequest.client_id == clientId) {
-        const accessToken = Math.random().toString(36).substring(2, 10);
+        const accessToken = generateRandomString(16);
 
         let cscope: string[] | undefined = undefined;
         if (code.scope) {

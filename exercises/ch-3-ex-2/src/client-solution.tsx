@@ -3,7 +3,11 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { ClientHome } from 'shared/components/client/ClientHome';
 import { ErrorPage } from 'shared/components/common/Error';
 
-import { buildUrl, encodeClientCredentials } from 'shared/util/util';
+import {
+  buildUrl,
+  encodeClientCredentials,
+  generateRandomString,
+} from 'shared/util/util';
 import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { Data } from 'shared/components/client/Data';
 
@@ -23,6 +27,7 @@ const protectedResource = 'http://localhost:9002/resource';
 
 let state: string | undefined = undefined;
 let accessToken: string | undefined = undefined;
+let refreshToken: string | undefined = undefined;
 
 const pageName = 'OAuth Client';
 
@@ -31,7 +36,7 @@ const app = new Hono();
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/authorize', (c) => {
-  state = Math.random().toString(36).substring(2, 10);
+  state = generateRandomString(8);
   const url = buildUrl(authServer.authorizationEndpoint, {
     response_type: 'code',
     client_id: client.clientId,
@@ -79,6 +84,7 @@ app.get('/callback', async (c) => {
   if (responseJson.error) {
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
+  accessToken = responseJson.access_token;
   if (!accessToken) {
     return c.redirect(
       `/?error=${encodeURIComponent('no access token from auth server')}`,
@@ -89,10 +95,9 @@ app.get('/callback', async (c) => {
       `/?error=${encodeURIComponent('unrecognized token type')}`,
     );
   }
-  accessToken = responseJson.access_token;
-  /**
-   * TODO: store refresh token.
-   */
+  if (responseJson.refresh_token) {
+    refreshToken = responseJson.refresh_token;
+  }
   return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
 });
 
@@ -108,10 +113,30 @@ app.get('/fetch-resource', async (c) => {
     headers,
   });
   const responseJson = await response.json();
-  if (responseJson.error) {
-    /**
-     * TODO: use refresh token to get a new access token.
-     */
+  if (responseJson.error && refreshToken) {
+    const tokenApiHeaders = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        encodeClientCredentials(client.clientId, client.clientSecret),
+    };
+    const tokenApiFormData = {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    };
+    const tokenResponse = await fetch(authServer.tokenEndpoint, {
+      method: 'POST',
+      headers: tokenApiHeaders,
+      body: new URLSearchParams(tokenApiFormData),
+    });
+    const respJson = await tokenResponse.json();
+    if (respJson.access_token) {
+      accessToken = respJson.access_token;
+      if (respJson.refresh_token && respJson !== refreshToken) {
+        refreshToken = respJson.refresh_token;
+      }
+      return c.redirect('/fetch-resource');
+    }
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
   return c.html(<Data {...responseJson.data} />);

@@ -24,3 +24,13 @@ export function encodeClientCredentials(
   const credentials = `${encodeURIComponent(clientId)}:${encodeURIComponent(clientSecret)}`;
   return Buffer.from(credentials).toString('base64');
 }
+
+export function generateRandomString(length: number): string {
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
