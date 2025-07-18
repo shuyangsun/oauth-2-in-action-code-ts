@@ -15,7 +15,7 @@ const resource = {
 
 const app = new Hono<{ Variables: Variables }>();
 
-app.use('/files/*', serveStatic({ root: './src' }));
+app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/', (c) => {
   return c.html(<ProtectedResourceHome />);

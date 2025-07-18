@@ -32,7 +32,7 @@ const pageName = 'OAuth Client';
 
 const app = new Hono();
 
-app.use('/files/*', serveStatic({ root: './src' }));
+app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/authorize', (c) => {
   /*

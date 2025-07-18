@@ -6,9 +6,11 @@ import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
 import { load } from 'shared/model/nosql';
 
+const pageName = 'OAuth Authorization Server';
+
 const app = new Hono();
 
-const pageName = 'OAuth Authorization Server';
+app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 // Authorization server information
 const authServer: AuthServerConfig = {
@@ -45,8 +47,6 @@ function getClientConfig(
   }
   return clients.find((client) => client.clientId === clientId);
 }
-
-app.use('/files/*', serveStatic({ root: './src' }));
 
 app.get('/', (c) => {
   return c.html(
