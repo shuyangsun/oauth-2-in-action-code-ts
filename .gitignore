@@ -20,4 +20,4 @@ node_modules/
 dist/
 
 # Data
-database.nosql
+*.nosql.json

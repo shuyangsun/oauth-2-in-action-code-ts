@@ -4,7 +4,8 @@ import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
 import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
-import { load } from 'shared/model/nosql';
+import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
+import { JSONFilePreset } from 'lowdb/node';
 import { generateRandomString } from 'shared/util/util';
 
 const pageName = 'OAuth Authorization Server';
@@ -159,7 +160,9 @@ app.post('/approve', async (c) => {
   }
 });
 
-const nosql = load('database.nosql', { autoSave: true });
+const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
+  records: [],
+});
 
 app.post('/token', async (c) => {
   const auth = c.req.header('authorization');
@@ -206,20 +209,45 @@ app.post('/token', async (c) => {
       delete codes[body.code as string]; // burn our code, it's been used
       if (code.authorizationEndpointRequest.client_id == clientId) {
         const accessToken = generateRandomString(16);
+        const refreshToken = generateRandomString(16);
+        const createdTime = new Date();
+        // Access token expires after 3 seconds.
+        const accessTokenExpires = new Date(createdTime.getTime() + 3000);
+        // Refresh token expires after one minute.
+        const refreshTokenExpires = new Date(createdTime.getTime() + 60000);
 
         let cscope: string[] | undefined = undefined;
         if (code.scope) {
           cscope = code.scope;
         }
 
-        nosql.insert({
-          access_token: accessToken,
-          client_id: clientId,
-          scope: cscope,
-        });
+        await nosql.update(({ records }) =>
+          records.push({
+            client_id: clientId,
+            refresh_token: {
+              token: refreshToken,
+              created: createdTime,
+              expires: refreshTokenExpires,
+            },
+            access_token: {
+              token: accessToken,
+              created: createdTime,
+              expires: accessTokenExpires,
+            },
+            scope: cscope?.join(' '),
+          }),
+        );
+        await nosql.write();
 
-        console.log(`Issuing access token ${accessToken}`);
-        console.log(`with scope ${cscope}`);
+        console.log(
+          `Issuing access token ${accessToken}, expires at ${accessTokenExpires}`,
+        );
+        console.log(
+          `        refresh token ${refreshToken}, expires at ${refreshTokenExpires}`,
+        );
+        if (cscope) {
+          console.log(`with scope ${cscope}`);
+        }
 
         const tokenResponse = {
           access_token: accessToken,
@@ -239,6 +267,8 @@ app.post('/token', async (c) => {
       console.log(`Unknown code ${body.code as string}`);
       return c.json({ error: 'invalid_grant' }, 400);
     }
+  } else if (grantType === 'refresh_token') {
+    // TODO
   } else {
     console.log(`Unknown grant type ${body.grant_type as string}`);
     return c.json({ error: 'unsupported_grant_type' }, 400);
@@ -250,16 +280,7 @@ app.get('/ping', (c) => {
 });
 
 // clear the database on startup
-nosql.clear();
-// inject our pre-baked refresh token
-setTimeout(
-  () =>
-    nosql.insert({
-      refresh_token: generateRandomString(16),
-      client_id: 'oauth-client-1',
-      scope: ['foo', 'bar'],
-    }),
-  5000,
-);
+await nosql.update((db) => (db.records = []));
+await nosql.write();
 
 export default app;

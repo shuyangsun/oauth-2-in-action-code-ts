@@ -38,8 +38,9 @@ TODO
 
 The folder structure and file names closely mimic the [original repository](https://github.com/oauthinaction/oauth-in-action-code), with a few minor changes:
 
-- Files have `.tsx` extension instead of `.js` extension.
-- GUI code from the `files` directory are moved to `packages/shared`.
+- Source code files are in `.tsx` extension instead of `.js` extension.
+- `.json` extensions are added to NoSQL database files (e.g., `database.nosql.json`).
+- GUI code originally in the `files` directory are moved to `packages/shared`.
 
 Below is a brief version of the `tree` output of the `exercises` directory.
 
@@ -51,9 +52,10 @@ exercises
 │   ├── client.tsx
 │   ├── authorizationServer.tsx
 │   ├── protectedResource.tsx
-│   ├── database.nosql
 │   └── ...
 └── ch-3-ex-2
+    ├── database.nosql.json
+    ├── client.tsx
     └── ...
 ```
 
