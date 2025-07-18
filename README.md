@@ -1,9 +1,9 @@
 # OAuth 2 in Action Code (TypeScript Port)
 
 > [!WARNING]
-> The official code from the book _OAuth 2 in Action_ by Antonio Sanso and Justin Richer is at [oauthinaction/oauth-in-action-code](https://github.com/oauthinaction/oauth-in-action-code).
+> _This repository is **not** the official code repository, nor is it from the original authors; it is a rewrite using TypeScript and a more modern stack._
 >
-> _This repository is **not** from the original authors_; it is a rewrite using TypeScript and a more modern stack.
+> The official code from the book _OAuth 2 in Action_ by Antonio Sanso and Justin Richer is at [oauthinaction/oauth-in-action-code](https://github.com/oauthinaction/oauth-in-action-code).
 
 ## Instructions
 
@@ -14,43 +14,46 @@ Core aspects of the [original repository](https://github.com/oauthinaction/oauth
 Install Bun from [bun.com](https://bun.com/).
 
 ```bash
+$ git clone git@github.com:shuyangsun/oauth-2-in-action-code-ts.git
+$ cd oauth-2-in-action-code-ts
+
+# Install dependencies.
+$ bun install
+
 # Go to the exercise directory of your choice.
 $ cd exercises/ch-3-ex-1
-
-# Install dependencies
-$ bun install
 
 # Start client, auth server and protected resource server in separate terminals.
 $ bun dev:client
 $ bun dev:auth-server
 $ bun dev:protected-resource
+
+# Start completed client, auth or resource server by adding "-completed".
+$ bun dev:client-completed
 ```
 
 ### Folder Structure & File Names
 
 The folder structure and file names closely mimic the [original repository](https://github.com/oauthinaction/oauth-in-action-code), with a few minor changes:
 
-- Core source code files are placed under the `src` directory within each chapter's exercise folder.
-- All client and server logic implemented in `.ts` files (instead of `.js`).
-- GUI code under the `files` directory are now in `.tsx` files instead of `.html` files.
+- Files have `.tsx` extension instead of `.js` extension, and file names are kebab-case instead of camelCase.
+- GUI code from the `files` directory and some helper functions are moved to `packages/shared`.
 
-Below is a brief version of the `tree` output.
+Below is a brief version of the `tree` output of the `exercises` directory.
 
 ```text
 exercises
 ├── ch-3-ex-1
-│   ├── src  <----------- added src/ folder
-│   │   ├── client.tsx
-│   │   ├── authorization-server.tsx
-│   │   ├── protected-resource.tsx
-│   │   └── files
-│   │       ├── client
-│   │       ├── authorization-server
-│   │       ├── protected-resource
-│   │       └── ...
-│   └── ...
+│   ├── completed
+│   │   └── client.tsx
+│   ├── client.tsx
+│   ├── authorization-server.tsx
+│   ├── protected-resource.tsx
+│   ├── database.nosql
+│   └── ...
 └── ch-3-ex-2
-    └── ...
+    ├── authorization-server.tsx
+    └── ...
 ```
 
 ## Tech Stack
