@@ -79,6 +79,7 @@ app.get('/callback', async (c) => {
   if (responseJson.error) {
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
+  accessToken = responseJson.access_token;
   if (!accessToken) {
     return c.redirect(
       `/?error=${encodeURIComponent('no access token from auth server')}`,
@@ -89,7 +90,6 @@ app.get('/callback', async (c) => {
       `/?error=${encodeURIComponent('unrecognized token type')}`,
     );
   }
-  accessToken = responseJson.access_token;
   return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
 });
 
