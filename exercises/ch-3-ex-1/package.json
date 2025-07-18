@@ -1,19 +1,16 @@
 {
   "name": "ch-3-ex-1",
   "dependencies": {
-    "hono": "^4.8.5",
-    "shared": "workspace:*"
-  },
-  "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
-    "tailwindcss": "^4.1.11",
-    "vite-plugin-static-copy": "^1.0.1"
+    "hono": "^4.8.5",
+    "shared": "workspace:*",
+    "tailwindcss": "^4.1.11"
   },
   "scripts": {
-    "dev:client": "bun vite --config vite.config.client.ts",
-    "dev:auth-server": "bun vite --config vite.config.auth.ts",
-    "dev:protected-resource": "bun vite --config vite.config.resource.ts",
-    "dev:client-solution": "bun vite --config vite.config.client-solution.ts"
+    "dev:client": "bun vite --config vite/vite.config.client.ts",
+    "dev:auth-server": "bun vite --config vite/vite.config.auth.ts",
+    "dev:protected-resource": "bun vite --config vite/vite.config.resource.ts",
+    "dev:client-solution": "bun vite --config vite/vite.config.client-solution.ts"
   },
   "type": "module"
 }

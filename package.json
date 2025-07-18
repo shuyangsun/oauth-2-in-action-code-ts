@@ -1,16 +1,5 @@
 {
   "name": "oauth-2-in-action-code-ts",
-  "private": true,
-  "workspaces": [
-    "exercises/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "lint": "bunx eslint --fix \"**/*.{js,ts,tsx}\"",
-    "check": "bunx prettier --check \"**/*.{js,ts,tsx,json,md}\"",
-    "format": "bunx prettier --write \"**/*.{js,ts,tsx,json,md}\"",
-    "prepare": "husky"
-  },
   "devDependencies": {
     "@eslint/css": "^0.10.0",
     "@eslint/js": "^9.31.0",
@@ -37,5 +26,16 @@
     "**/*.{json,md}": [
       "bunx prettier --write"
     ]
-  }
+  },
+  "private": true,
+  "scripts": {
+    "lint": "bunx eslint --fix \"**/*.{js,ts,tsx}\"",
+    "check": "bunx prettier --check \"**/*.{js,ts,tsx,json,md}\"",
+    "format": "bunx prettier --write \"**/*.{js,ts,tsx,json,md}\"",
+    "prepare": "husky"
+  },
+  "workspaces": [
+    "exercises/*",
+    "packages/*"
+  ]
 }

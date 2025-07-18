@@ -30,7 +30,7 @@ export const ServerStatus: FC = () => {
           className="w-3 h-3 rounded-full bg-red-500"
         ></span>
       </div>
-      <script src="/files/shared/server-status.js" type="module"></script>
+      {/* <script src="/files/shared/server-status.js" type="module"></script> */}
     </div>
   );
 };
