@@ -20,6 +20,15 @@ export const ErrorPage: FC<Props> = ({ name, error }: Props) => {
               {error}
             </div>
           </div>
+
+          <div className="flex justify-center pt-4">
+            <a
+              href="/"
+              className="bg-blue-600 border-2 border-blue-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-blue-700 hover:border-blue-600 transition-colors shadow-lg"
+            >
+              Back to Home
+            </a>
+          </div>
         </div>
       </div>
     </Layout>
