@@ -221,14 +221,14 @@ app.post('/token', async (c) => {
         console.log(`Issuing access token ${accessToken}`);
         console.log(`with scope ${cscope}`);
 
-        const token_response = {
+        const tokenResponse = {
           access_token: accessToken,
           token_type: 'Bearer',
           scope: cscope,
         };
 
         console.log(`Issued tokens for code ${body.code as string}`);
-        return c.json(token_response);
+        return c.json(tokenResponse);
       } else {
         console.log(
           `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
@@ -251,15 +251,5 @@ app.get('/ping', (c) => {
 
 // clear the database on startup
 nosql.clear();
-// inject our pre-baked refresh token
-setTimeout(
-  () =>
-    nosql.insert({
-      refresh_token: generateRandomString(16),
-      client_id: 'oauth-client-1',
-      scope: ['foo', 'bar'],
-    }),
-  5000,
-);
 
 export default app;

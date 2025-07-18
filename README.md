@@ -39,7 +39,6 @@ TODO
 The folder structure and file names closely mimic the [original repository](https://github.com/oauthinaction/oauth-in-action-code), with a few minor changes:
 
 - Files have `.tsx` extension instead of `.js` extension.
-- File names are `kebab-case` instead of `camelCase`.
 - GUI code from the `files` directory are moved to `packages/shared`.
 
 Below is a brief version of the `tree` output of the `exercises` directory.
@@ -50,12 +49,12 @@ exercises
 │   ├── completed
 │   │   └── client.tsx
 │   ├── client.tsx
-│   ├── authorization-server.tsx
-│   ├── protected-resource.tsx
+│   ├── authorizationServer.tsx
+│   ├── protectedResource.tsx
 │   ├── database.nosql
 │   └── ...
 └── ch-3-ex-2
-    ├── authorization-server.tsx
+    ├── authorizationServer.tsx
     └── ...
 ```
 
