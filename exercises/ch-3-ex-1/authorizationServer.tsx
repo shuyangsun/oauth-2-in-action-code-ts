@@ -4,7 +4,6 @@ import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
 import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
-import { load } from 'shared/model/nosql';
 import { generateRandomString } from 'shared/util/util';
 
 const pageName = 'OAuth Authorization Server';
@@ -159,8 +158,6 @@ app.post('/approve', async (c) => {
   }
 });
 
-const nosql = load('database.nosql', { autoSave: true });
-
 app.post('/token', async (c) => {
   const auth = c.req.header('authorization');
   const body = await c.req.parseBody();
@@ -212,12 +209,6 @@ app.post('/token', async (c) => {
           cscope = code.scope;
         }
 
-        nosql.insert({
-          access_token: accessToken,
-          client_id: clientId,
-          scope: cscope,
-        });
-
         console.log(`Issuing access token ${accessToken}`);
         console.log(`with scope ${cscope}`);
 
@@ -248,8 +239,5 @@ app.post('/token', async (c) => {
 app.get('/ping', (c) => {
   return c.text('pong');
 });
-
-// clear the database on startup
-nosql.clear();
 
 export default app;
