@@ -4,13 +4,13 @@ import honoDevServer from '@hono/vite-dev-server';
 export default defineConfig({
   plugins: [
     honoDevServer({
-      entry: 'src/protected-resource.tsx',
+      entry: 'protected-resource.tsx',
     }),
   ],
   server: {
     port: 9002,
   },
   preview: {
-    port: 9000,
+    port: 9002,
   },
 });

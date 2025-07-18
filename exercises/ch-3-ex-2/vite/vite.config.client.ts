@@ -4,7 +4,7 @@ import honoDevServer from '@hono/vite-dev-server';
 export default defineConfig({
   plugins: [
     honoDevServer({
-      entry: 'src/client.tsx',
+      entry: 'client.tsx',
     }),
   ],
   server: {

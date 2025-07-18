@@ -4,13 +4,13 @@ import honoDevServer from '@hono/vite-dev-server';
 export default defineConfig({
   plugins: [
     honoDevServer({
-      entry: 'src/client-solution.tsx',
+      entry: 'completed/client.tsx',
       injectClientScript: true,
     }),
   ],
   build: {
     rollupOptions: {
-      input: 'src/client-solution.tsx',
+      input: 'completed/client.tsx',
     },
   },
   server: {

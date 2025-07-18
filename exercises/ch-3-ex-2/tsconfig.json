@@ -5,5 +5,12 @@
       "shared/*": ["../../packages/shared/*"]
     }
   },
-  "include": ["src/**/*", "../../packages/shared/**/*"]
+  "include": [
+    "src/**/*",
+    "../../packages/shared/**/*",
+    "authorization-server.tsx",
+    "completed/client.tsx",
+    "client.tsx",
+    "protected-resource.tsx"
+  ]
 }
