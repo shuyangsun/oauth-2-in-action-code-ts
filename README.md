@@ -5,13 +5,9 @@
 >
 > The official code from the book _OAuth 2 in Action_ by Antonio Sanso and Justin Richer is at [oauthinaction/oauth-in-action-code](https://github.com/oauthinaction/oauth-in-action-code).
 
-## Instructions
+## Getting Started
 
-Core aspects of the [original repository](https://github.com/oauthinaction/oauth-in-action-code) are preserved as much as possible, with a few minor changes to help readers feel at home.
-
-### Getting Started
-
-Install Bun from [bun.com](https://bun.com/).
+This project uses [Bun](https://bun.com/) instead of [Node.js](https://nodejs.org/), install the lastest version from [Bun's website](https://bun.com/).
 
 ```bash
 $ git clone git@github.com:shuyangsun/oauth-2-in-action-code-ts.git
@@ -32,12 +28,19 @@ $ bun dev:protected-resource
 $ bun dev:client-completed
 ```
 
-### Folder Structure & File Names
+## Why?
+
+TODO
+
+## What Changed?
+
+### Files & Folders
 
 The folder structure and file names closely mimic the [original repository](https://github.com/oauthinaction/oauth-in-action-code), with a few minor changes:
 
-- Files have `.tsx` extension instead of `.js` extension, and file names are kebab-case instead of camelCase.
-- GUI code from the `files` directory and some helper functions are moved to `packages/shared`.
+- Files have `.tsx` extension instead of `.js` extension.
+- File names are `kebab-case` instead of `camelCase`.
+- GUI code from the `files` directory are moved to `packages/shared`.
 
 Below is a brief version of the `tree` output of the `exercises` directory.
 
