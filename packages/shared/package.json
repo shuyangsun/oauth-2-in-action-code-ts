@@ -2,10 +2,5 @@
   "name": "shared",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "hono": "^4.8.5",
-    "tailwindcss": "^4.1.11"
-  }
+  "type": "module"
 }
