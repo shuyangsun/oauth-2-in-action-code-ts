@@ -27,6 +27,13 @@
         "shared": "workspace:*",
       },
     },
+    "exercises/ch-3-ex-2": {
+      "name": "ch-3-ex-2",
+      "dependencies": {
+        "hono": "^4.8.5",
+        "shared": "workspace:*",
+      },
+    },
     "packages/shared": {
       "name": "shared",
       "version": "1.0.0",
@@ -238,6 +245,8 @@
     "ccount": ["ccount@2.0.1", "", {}, "sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg=="],
 
     "ch-3-ex-1": ["ch-3-ex-1@workspace:exercises/ch-3-ex-1"],
+
+    "ch-3-ex-2": ["ch-3-ex-2@workspace:exercises/ch-3-ex-2"],
 
     "chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 
