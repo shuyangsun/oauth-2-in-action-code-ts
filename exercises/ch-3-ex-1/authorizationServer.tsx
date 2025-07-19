@@ -5,10 +5,15 @@ import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
 import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
 import { generateRandomString } from 'shared/util/util';
+import { checkError } from 'shared/middleware/error';
 
 const pageName = 'OAuth Authorization Server';
 
 const app = new Hono();
+app.onError(async (err, c) => {
+  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+});
+app.use('/*', checkError(pageName));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
@@ -50,7 +55,9 @@ function getClientConfig(
 
 app.get('/', (c) => {
   return c.html(
-    <AuthServerHome authServerConfig={authServer} clientsConfig={clients} />,
+    <AuthServerHome
+      {...{ authServerConfig: authServer, clientsConfig: clients }}
+    />,
   );
 });
 
@@ -60,13 +67,11 @@ app.get('/authorize', (c) => {
   const client = getClientConfig(clientId);
 
   if (!client) {
-    const error = clientId ? `Unknown client "${clientId}"` : 'No client ID';
-    console.log(error);
-    return c.html(<ErrorPage name={pageName} error={error} />, 400);
+    throw new Error(clientId ? `Unknown client "${clientId}"` : 'No client ID');
   } else if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
-    const error = `Mismatched redirect URI, expected ${client.redirectUris.join(', ')} got ${redirectUri}`;
-    console.log(error);
-    return c.html(<ErrorPage name={pageName} error={error} />, 400);
+    throw new Error(
+      `Mismatched redirect URI, expected ${client.redirectUris.join(', ')} got ${redirectUri}`,
+    );
   } else {
     const reqScope = c.req.query('scope');
     const reqScopes = reqScope ? reqScope.split(' ') : undefined;
@@ -103,10 +108,7 @@ app.post('/approve', async (c) => {
 
   if (!query) {
     // there was no matching saved request, this is a server error
-    return c.html(
-      <ErrorPage name={pageName} error="No matching authorization request" />,
-      500,
-    );
+    throw new Error('No matching authorization request');
   }
 
   const url = new URL(query.redirect_uri);

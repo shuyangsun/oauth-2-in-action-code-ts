@@ -3,14 +3,14 @@ import { Layout } from '../common/Layout';
 import { Navbar } from '../common/Navbar';
 
 interface Props {
-  name: string | undefined;
-  description: string | undefined;
+  name?: string;
+  description?: string;
 }
 
 export const Data: FC<Props> = (props: Props) => {
   return (
     <Layout>
-      <Navbar name="OAuth Client" />
+      <Navbar pageName="OAuth Client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">

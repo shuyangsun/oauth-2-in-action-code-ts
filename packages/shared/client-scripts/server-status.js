@@ -29,7 +29,6 @@ function getPingEndpointURI(port) {
 }
 
 async function pingServer(port) {
-  console.log(`Pinging ${port}`);
   try {
     const response = await fetch(getPingEndpointURI(port), {
       method: 'GET',

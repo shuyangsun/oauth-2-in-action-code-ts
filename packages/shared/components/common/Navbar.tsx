@@ -2,10 +2,10 @@ import { ServerStatus } from './ServerStatus';
 import type { FC } from 'hono/jsx';
 
 interface Props {
-  name: string;
+  pageName: string;
 }
 
-export const Navbar: FC<Props> = ({ name }: Props) => {
+export const Navbar: FC<Props> = ({ pageName }: Props) => {
   return (
     <nav className="bg-slate-900 border-b border-slate-700">
       <div className="mx-auto px-6 md:px-16 lg:px-20 xl:px-32 py-4">
@@ -17,7 +17,7 @@ export const Navbar: FC<Props> = ({ name }: Props) => {
                 href="/"
                 className="text-xl font-normal text-white bg-blue-900 px-3 py-1 rounded hover:bg-blue-800 transition-colors self-start ml-2"
               >
-                {name}
+                {pageName}
               </a>
             </span>
           </div>
