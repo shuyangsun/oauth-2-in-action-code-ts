@@ -1,8 +1,7 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { createMiddleware } from 'hono/factory';
 import { ProtectedResourceHome } from 'shared/components/protected-resource/ProtectedResourceHome';
-import { getBearerToken } from 'shared/util/util';
+import { getAccessToken } from 'shared/middleware/oauth2-0';
 
 // Define the type for context variables
 type Variables = {
@@ -24,17 +23,6 @@ app.get('/', (c) => {
 
 app.get('/ping', (c) => {
   return c.text('pong');
-});
-
-const getAccessToken = createMiddleware(async (c, next) => {
-  const accessToken =
-    getBearerToken(c.req.header('authorization')) ??
-    getBearerToken((await c.req.parseBody()).accessToken as string) ??
-    // !!! Tokens are not allowed in query parameters in OAuth 2.1 !!!
-    getBearerToken(c.req.query('access_token'));
-
-  c.set('accessToken', accessToken);
-  await next();
 });
 
 app.post('/resource', getAccessToken, (c) => {
