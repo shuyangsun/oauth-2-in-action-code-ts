@@ -4,6 +4,7 @@ import { createMiddleware } from 'hono/factory';
 import { ProtectedResourceHome } from 'shared/components/protected-resource/ProtectedResourceHome';
 import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
 import { JSONFilePreset } from 'lowdb/node';
+import { getBearerToken } from 'shared/util/util';
 
 // Define the type for context variables
 type Variables = {
@@ -28,21 +29,12 @@ app.get('/ping', (c) => {
 });
 
 const getAccessToken = createMiddleware(async (c, next) => {
-  const auth = c.req.header('authorization');
-  let accessToken: string | undefined = undefined;
-  const bearerStart = 'bearer ';
-  if (auth && auth.toLowerCase().startsWith(bearerStart)) {
-    accessToken = auth.slice(bearerStart.length);
-  }
-  if (!accessToken) {
-    const body = await c.req.parseBody();
-    if (body.accessToken) {
-      accessToken = body.accessToken as string;
-    }
-  }
-  if (!accessToken) {
-    accessToken = c.req.query('access_token');
-  }
+  const accessToken =
+    getBearerToken(c.req.header('authorization')) ??
+    getBearerToken((await c.req.parseBody()).accessToken as string) ??
+    // !!! Tokens are not allowed in query parameters in OAuth 2.1 !!!
+    getBearerToken(c.req.query('access_token'));
+
   c.set('accessToken', accessToken);
   await next();
 });

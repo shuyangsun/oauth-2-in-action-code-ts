@@ -34,3 +34,18 @@ export function generateRandomString(length: number): string {
   }
   return result;
 }
+
+export function getBearerToken(value: string | undefined): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const bearerStart = 'bearer ';
+  if (!value.toLowerCase().startsWith(bearerStart)) {
+    return bearerStart;
+  }
+  const token = value.slice(bearerStart.length);
+  if (!token) {
+    return undefined;
+  }
+  return token;
+}
