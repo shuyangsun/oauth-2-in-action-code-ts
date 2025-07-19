@@ -19,7 +19,6 @@ const client: ClientConfig = {
   clientId: 'TODO: assign client ID',
   clientSecret: 'TODO: assign client secret',
   redirectUris: ['TODO: assign redirect URL'],
-  scope: undefined,  // not needed for this exercise
 };
 
 const protectedResource = 'TODO: assign endpoint';

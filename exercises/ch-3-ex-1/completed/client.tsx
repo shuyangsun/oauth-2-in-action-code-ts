@@ -21,7 +21,6 @@ const client: ClientConfig = {
   clientId: 'oauth-client-1',
   clientSecret: 'oauth-client-secret-1',
   redirectUris: ['http://localhost:9000/callback'],
-  scope: undefined, // not needed for this exercise
 };
 
 const protectedResource = 'http://localhost:9002/resource';
