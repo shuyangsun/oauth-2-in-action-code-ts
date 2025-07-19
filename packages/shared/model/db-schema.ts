@@ -4,11 +4,13 @@ export interface Token {
   expires: Date;
 }
 
+export interface DbRecordCh3Ex2 {
+  client_id: string;
+  scope?: string;
+  refresh_token: Token;
+  access_token: Token;
+}
+
 export interface DbSchemaCh3Ex2 {
-  records: {
-    client_id: string;
-    scope?: string;
-    refresh_token: Token;
-    access_token: Token;
-  }[];
+  records: DbRecordCh3Ex2[];
 }

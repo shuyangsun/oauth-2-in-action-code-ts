@@ -199,37 +199,36 @@ app.post('/token', async (c) => {
   if (grantType === 'authorization_code') {
     const code = codes[body.code as string];
 
-    if (code) {
-      delete codes[body.code as string]; // burn our code, it's been used
-      if (code.authorizationEndpointRequest.client_id == clientId) {
-        const accessToken = generateRandomString(16);
-
-        let cscope: string[] | undefined = undefined;
-        if (code.scope) {
-          cscope = code.scope;
-        }
-
-        console.log(`Issuing access token ${accessToken}`);
-        console.log(`with scope ${cscope}`);
-
-        const tokenResponse = {
-          access_token: accessToken,
-          token_type: 'Bearer',
-          scope: cscope,
-        };
-
-        console.log(`Issued tokens for code ${body.code as string}`);
-        return c.json(tokenResponse);
-      } else {
-        console.log(
-          `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
-        );
-        return c.json({ error: 'invalid_grant' }, 400);
-      }
-    } else {
+    if (!code) {
       console.log(`Unknown code ${body.code as string}`);
       return c.json({ error: 'invalid_grant' }, 400);
     }
+    delete codes[body.code as string]; // burn our code, it's been used
+    if (code.authorizationEndpointRequest.client_id !== clientId) {
+      console.log(
+        `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
+      );
+      return c.json({ error: 'invalid_grant' }, 400);
+    }
+
+    const accessToken = generateRandomString(16);
+
+    let cscope: string[] | undefined = undefined;
+    if (code.scope) {
+      cscope = code.scope;
+    }
+
+    console.log(`Issuing access token ${accessToken}`);
+    console.log(`with scope ${cscope}`);
+
+    const tokenResponse = {
+      access_token: accessToken,
+      token_type: 'Bearer',
+      scope: cscope,
+    };
+
+    console.log(`Issued tokens for code ${body.code as string}`);
+    return c.json(tokenResponse);
   } else {
     console.log(`Unknown grant type ${body.grant_type as string}`);
     return c.json({ error: 'unsupported_grant_type' }, 400);

@@ -52,7 +52,7 @@ app.post('/resource', getAccessToken, (c) => {
       data: resource,
     });
   } else {
-    return c.json({ error: 'no access token' }, 400);
+    return c.json({ error: 'no_access_token' }, 400);
   }
 });
 

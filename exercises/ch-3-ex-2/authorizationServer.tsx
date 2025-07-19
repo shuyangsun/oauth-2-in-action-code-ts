@@ -4,7 +4,7 @@ import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { AuthServerHome } from 'shared/components/auth-server/AuthServerHome';
 import { ErrorPage } from 'shared/components/common/Error';
 import { Approve } from 'shared/components/auth-server/Approve';
-import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
+import { DbRecordCh3Ex2, DbSchemaCh3Ex2 } from 'shared/model/db-schema';
 import { JSONFilePreset } from 'lowdb/node';
 import { generateRandomString } from 'shared/util/util';
 
@@ -164,6 +164,66 @@ const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
   records: [],
 });
 
+async function issueNewTokens(
+  clientId: string,
+  scope?: string,
+): Promise<DbRecordCh3Ex2> {
+  const accessToken = generateRandomString(16);
+  const refreshToken = generateRandomString(16);
+  const createdTime = new Date();
+  // Access token expires after 3 seconds.
+  const accessTokenExpires = new Date(createdTime.getTime() + 3000);
+  // Refresh token expires after one minute.
+  const refreshTokenExpires = new Date(createdTime.getTime() + 60000);
+  const record = {
+    client_id: clientId,
+    refresh_token: {
+      token: refreshToken,
+      created: createdTime,
+      expires: refreshTokenExpires,
+    },
+    access_token: {
+      token: accessToken,
+      created: createdTime,
+      expires: accessTokenExpires,
+    },
+    scope: scope,
+  };
+
+  // Remove the old refresh token first.
+  await nosql.update(
+    (data) =>
+      (data.records = data.records.filter(
+        (record) =>
+          !(
+            record.client_id === clientId &&
+            record.refresh_token.token === refreshToken
+          ),
+      )),
+  );
+  await nosql.update(({ records }) => records.push(record));
+  await nosql.write();
+  console.log(
+    `Issuing access token ${record.access_token.token}, expires at ${record.access_token.expires}`,
+  );
+  console.log(
+    `        refresh token ${record.refresh_token.token}, expires at ${record.refresh_token.expires}`,
+  );
+  if (scope) {
+    console.log(`with scope ${scope}`);
+  }
+  return record;
+}
+
+function tokenResponseFromRecord(record: DbRecordCh3Ex2) {
+  return {
+    access_token: record.access_token.token,
+    refresh_token: record.refresh_token.token,
+    token_type: 'Bearer',
+    scope: record.scope,
+  };
+}
+
 app.post('/token', async (c) => {
   const auth = c.req.header('authorization');
   const body = await c.req.parseBody();
@@ -189,7 +249,7 @@ app.post('/token', async (c) => {
   }
 
   const client = getClientConfig(clientId);
-  if (!client) {
+  if (!clientId || !client) {
     console.log(`Unknown client ${clientId}`);
     return c.json({ error: 'invalid_client' }, 401);
   }
@@ -204,71 +264,49 @@ app.post('/token', async (c) => {
   const grantType = body.grant_type as string;
   if (grantType === 'authorization_code') {
     const code = codes[body.code as string];
-
-    if (code) {
-      delete codes[body.code as string]; // burn our code, it's been used
-      if (code.authorizationEndpointRequest.client_id == clientId) {
-        const accessToken = generateRandomString(16);
-        const refreshToken = generateRandomString(16);
-        const createdTime = new Date();
-        // Access token expires after 3 seconds.
-        const accessTokenExpires = new Date(createdTime.getTime() + 3000);
-        // Refresh token expires after one minute.
-        const refreshTokenExpires = new Date(createdTime.getTime() + 60000);
-
-        let cscope: string[] | undefined = undefined;
-        if (code.scope) {
-          cscope = code.scope;
-        }
-
-        await nosql.update(({ records }) =>
-          records.push({
-            client_id: clientId,
-            refresh_token: {
-              token: refreshToken,
-              created: createdTime,
-              expires: refreshTokenExpires,
-            },
-            access_token: {
-              token: accessToken,
-              created: createdTime,
-              expires: accessTokenExpires,
-            },
-            scope: cscope?.join(' '),
-          }),
-        );
-        await nosql.write();
-
-        console.log(
-          `Issuing access token ${accessToken}, expires at ${accessTokenExpires}`,
-        );
-        console.log(
-          `        refresh token ${refreshToken}, expires at ${refreshTokenExpires}`,
-        );
-        if (cscope) {
-          console.log(`with scope ${cscope}`);
-        }
-
-        const tokenResponse = {
-          access_token: accessToken,
-          token_type: 'Bearer',
-          scope: cscope,
-        };
-
-        console.log(`Issued tokens for code ${body.code as string}`);
-        return c.json(tokenResponse);
-      } else {
-        console.log(
-          `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
-        );
-        return c.json({ error: 'invalid_grant' }, 400);
-      }
-    } else {
+    if (!code) {
       console.log(`Unknown code ${body.code as string}`);
       return c.json({ error: 'invalid_grant' }, 400);
     }
+
+    delete codes[body.code as string]; // burn our code, it's been used
+
+    if (code.authorizationEndpointRequest.client_id !== clientId) {
+      console.log(
+        `Client mismatch, expected ${code.authorizationEndpointRequest.client_id} got ${clientId}`,
+      );
+      return c.json({ error: 'invalid_grant' }, 400);
+    }
+
+    const cscope = code.scope?.join(' ');
+    const record = await issueNewTokens(clientId, cscope);
+
+    console.log(`Issued tokens for code ${body.code as string}`);
+    return c.json(tokenResponseFromRecord(record));
   } else if (grantType === 'refresh_token') {
-    // TODO
+    const refreshToken = body.refresh_token;
+    if (!refreshToken) {
+      console.log('No refresh token found.');
+      return c.json({ error: 'no_refresh_token' }, 400);
+    }
+    await nosql.read();
+    const match = nosql.data.records.find(
+      (record) =>
+        record.client_id === clientId &&
+        record.refresh_token.token === refreshToken,
+    );
+    if (!match) {
+      console.log('Could not find matching refresh token.');
+      return c.json({ error: 'no_match_refresh_token' });
+    }
+    if (new Date(match.refresh_token.expires) < new Date()) {
+      console.log('Refresh token expired.');
+      return c.json({ error: 'expired_refresh_token' });
+    }
+    const record = await issueNewTokens(clientId, match.scope);
+
+    console.log('Issued refresh token');
+    return c.json(tokenResponseFromRecord(record));
   } else {
     console.log(`Unknown grant type ${body.grant_type as string}`);
     return c.json({ error: 'unsupported_grant_type' }, 400);
