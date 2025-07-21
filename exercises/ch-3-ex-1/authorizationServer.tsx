@@ -53,14 +53,6 @@ function getClientConfig(
   return clients.find((client) => client.clientId === clientId);
 }
 
-app.get('/', (c) => {
-  return c.html(
-    <AuthServerHome
-      {...{ authServerConfig: authServer, clientsConfig: clients }}
-    />,
-  );
-});
-
 app.get('/authorize', (c) => {
   const clientId = c.req.query('client_id');
   const redirectUri = c.req.query('redirect_uri');
@@ -235,6 +227,14 @@ app.post('/token', async (c) => {
     console.log(`Unknown grant type ${body.grant_type as string}`);
     return c.json({ error: 'unsupported_grant_type' }, 400);
   }
+});
+
+app.get('/', (c) => {
+  return c.html(
+    <AuthServerHome
+      {...{ authServerConfig: authServer, clientsConfig: clients }}
+    />,
+  );
 });
 
 app.get('/ping', (c) => {
