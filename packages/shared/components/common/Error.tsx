@@ -1,16 +1,17 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from './Layout';
 import { Navbar } from './Navbar';
+import { OAuthEntity } from './oauth-entities';
 
 interface Props {
-  pageName: string;
+  oauthEntity: OAuthEntity;
   error?: string;
 }
 
-export const ErrorPage: FC<Props> = ({ pageName, error }: Props) => {
+export const ErrorPage: FC<Props> = ({ oauthEntity, error }: Props) => {
   return (
     <Layout>
-      <Navbar {...{ pageName }} />
+      <Navbar {...{ oauthEntity }} />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">

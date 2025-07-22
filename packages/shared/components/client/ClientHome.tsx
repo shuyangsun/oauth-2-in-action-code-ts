@@ -54,7 +54,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
 export const ClientHome: FC<Prop> = (prop: Prop) => {
   return (
     <Layout>
-      <Navbar pageName="OAuth Client" />
+      <Navbar oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Main {...prop} />

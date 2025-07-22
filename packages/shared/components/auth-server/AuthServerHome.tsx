@@ -146,7 +146,7 @@ export const AuthServerHome: FC<Prop> = ({
 }: Prop) => {
   return (
     <Layout>
-      <Navbar pageName="OAuth Authorization Server" />
+      <Navbar oauthEntity="auth_server" />
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
         <AuthServerInfo config={authServerConfig} />
         <ClientsInfo configs={clientsConfig} />

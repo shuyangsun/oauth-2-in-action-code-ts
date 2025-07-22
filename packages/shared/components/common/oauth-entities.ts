@@ -1,6 +1,6 @@
 export type OAuthEntity = 'client' | 'auth_server' | 'protected_resource';
 
-export function getOAuthEntityName(entity: OAuthEntity): string {
+export function getOAuthEntity(entity: OAuthEntity): string {
   switch (entity) {
     case 'client':
       return 'OAuth Client';

@@ -15,13 +15,13 @@ const resource = {
   description: 'This data has been protected by OAuth 2.0',
 };
 
-const pageName = 'OAuth Protected Resource';
+const oauthEntity = 'protected_resource';
 
 const app = new Hono<{ Variables: Variables }>();
 app.onError(async (err, c) => {
-  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+  return c.html(<ErrorPage {...{ oauthEntity, error: err.message }} />);
 });
-app.use('/*', checkError(pageName));
+app.use('/*', checkError(oauthEntity));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 

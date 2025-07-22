@@ -5,7 +5,7 @@ import { Navbar } from '../common/Navbar';
 export const ProtectedResourceHome: FC = () => {
   return (
     <Layout>
-      <Navbar pageName="OAuth Protected Resource" />
+      <Navbar oauthEntity="protected_resource" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">

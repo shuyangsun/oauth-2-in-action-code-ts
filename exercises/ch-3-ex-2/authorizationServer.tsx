@@ -9,13 +9,13 @@ import { JSONFilePreset } from 'lowdb/node';
 import { generateRandomString } from 'shared/util/util';
 import { checkError } from 'shared/middleware/error';
 
-const pageName = 'OAuth Authorization Server';
+const oauthEntity = 'auth_server';
 
 const app = new Hono();
 app.onError(async (err, c) => {
-  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+  return c.html(<ErrorPage {...{ oauthEntity, error: err.message }} />);
 });
-app.use('/*', checkError(pageName));
+app.use('/*', checkError(oauthEntity));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 

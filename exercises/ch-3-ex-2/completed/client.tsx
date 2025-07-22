@@ -29,13 +29,13 @@ let state: string | undefined = undefined;
 let accessToken: string | undefined = undefined;
 let refreshToken: string | undefined = undefined;
 
-const pageName = 'OAuth Client';
+const oauthEntity = 'client';
 
 const app = new Hono();
 app.onError(async (err, c) => {
-  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+  return c.html(<ErrorPage {...{ oauthEntity, error: err.message }} />);
 });
-app.use('/*', checkError(pageName));
+app.use('/*', checkError(oauthEntity));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 

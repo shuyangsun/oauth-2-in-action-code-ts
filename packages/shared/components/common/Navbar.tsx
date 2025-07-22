@@ -1,11 +1,13 @@
 import { ServerStatus } from './ServerStatus';
 import type { FC } from 'hono/jsx';
+import { getOAuthEntity, OAuthEntity } from './oauth-entities';
 
 interface Props {
-  pageName: string;
+  oauthEntity: OAuthEntity;
 }
 
-export const Navbar: FC<Props> = ({ pageName }: Props) => {
+export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
+  const pageName = getOAuthEntity(oauthEntity);
   return (
     <nav className="bg-slate-900 border-b border-slate-700">
       <div className="mx-auto px-6 md:px-16 lg:px-20 xl:px-32 py-4">

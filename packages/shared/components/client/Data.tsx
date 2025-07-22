@@ -10,7 +10,7 @@ interface Props {
 export const Data: FC<Props> = (props: Props) => {
   return (
     <Layout>
-      <Navbar pageName="OAuth Client" />
+      <Navbar oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
