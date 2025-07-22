@@ -4,6 +4,8 @@ import { ProtectedResourceHome } from 'shared/components/protected-resource/Prot
 import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
 import { JSONFilePreset } from 'lowdb/node';
 import { getAccessToken } from 'shared/middleware/oauth2-0';
+import { checkError } from 'shared/middleware/error';
+import { ErrorPage } from 'shared/components/common/Error';
 
 // Define the type for context variables
 type Variables = {
@@ -15,7 +17,13 @@ const resource = {
   description: 'This data has been protected by OAuth 2.0',
 };
 
+const pageName = 'OAuth Protected Resource';
+
 const app = new Hono<{ Variables: Variables }>();
+app.onError(async (err, c) => {
+  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+});
+app.use('/*', checkError(pageName));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
