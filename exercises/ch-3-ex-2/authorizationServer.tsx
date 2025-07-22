@@ -64,11 +64,11 @@ app.get('/authorize', (c) => {
   if (!client) {
     const error = clientId ? `Unknown client "${clientId}"` : 'No client ID';
     console.log(error);
-    return c.html(<ErrorPage name={pageName} error={error} />, 400);
+    return c.html(<ErrorPage {...{ pageName, error }} />, 400);
   } else if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
     const error = `Mismatched redirect URI, expected ${client.redirectUris.join(', ')} got ${redirectUri}`;
     console.log(error);
-    return c.html(<ErrorPage name={pageName} error={error} />, 400);
+    return c.html(<ErrorPage {...{ pageName, error }} />, 400);
   } else {
     const reqScope = c.req.query('scope');
     const reqScopes = reqScope ? reqScope.split(' ') : undefined;

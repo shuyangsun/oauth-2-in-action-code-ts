@@ -7,7 +7,7 @@ import { getAccessToken } from 'shared/middleware/oauth2-0';
 
 // Define the type for context variables
 type Variables = {
-  accessToken: string;
+  accessToken?: string;
 };
 
 const resource = {
@@ -32,13 +32,12 @@ const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
 });
 
 app.post('/resource', getAccessToken, async (c) => {
-  const accessToken = c.get('accessToken');
-  if (!accessToken) {
+  if (!c.var.accessToken) {
     return c.json({ error: 'no_access_token' }, 400);
   }
   await nosql.read();
   const record = nosql.data.records.find(
-    (record) => record.access_token.token === accessToken,
+    (record) => record.access_token.token === c.var.accessToken,
   );
   if (!record) {
     return c.json({ error: 'no_matching_access_token' }, 400);

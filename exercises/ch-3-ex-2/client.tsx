@@ -10,6 +10,7 @@ import {
 } from 'shared/util/util';
 import { AuthServerConfig, ClientConfig } from 'shared/model/server-configs';
 import { Data } from 'shared/components/client/Data';
+import { checkError } from 'shared/middleware/error';
 
 const authServer: AuthServerConfig = {
   authorizationEndpoint: 'http://localhost:9001/authorize',
@@ -20,7 +21,6 @@ const client: ClientConfig = {
   clientId: 'oauth-client-1',
   clientSecret: 'oauth-client-secret-1',
   redirectUris: ['http://localhost:9000/callback'],
-  scope: undefined, // not needed for this exercise
 };
 
 const protectedResource = 'http://localhost:9002/resource';
@@ -31,6 +31,10 @@ let accessToken: string | undefined = undefined;
 const pageName = 'OAuth Client';
 
 const app = new Hono();
+app.onError(async (err, c) => {
+  return c.html(<ErrorPage {...{ pageName, error: err.message }} />);
+});
+app.use('/*', checkError(pageName));
 
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
@@ -46,22 +50,16 @@ app.get('/authorize', (c) => {
 });
 
 app.get('/callback', async (c) => {
-  const error = c.req.query('error');
-  if (error) {
-    return c.redirect(`/?error=${encodeURIComponent(error)}`);
-  }
-  const callbackState = c.req.query('state');
-  if (callbackState !== state) {
-    return c.redirect(`/?error=${encodeURIComponent('state mismatched')}`);
-  }
-  state = undefined;
-
   const code = c.req.query('code');
   if (!code) {
-    return c.redirect(
-      `/?error=${encodeURIComponent('no authorization code from auth server')}`,
-    );
+    throw new Error('no authorization code from auth server');
   }
+
+  const callbackState = c.req.query('state');
+  if (callbackState !== state) {
+    throw new Error('state mismatch');
+  }
+  state = undefined;
 
   const tokenApiHeaders = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -81,28 +79,21 @@ app.get('/callback', async (c) => {
 
   const responseJson = await tokenResponse.json();
   if (responseJson.error) {
-    return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
+    throw new Error(responseJson.error);
   }
   accessToken = responseJson.access_token;
   if (!accessToken) {
-    return c.redirect(
-      `/?error=${encodeURIComponent('no access token from auth server')}`,
-    );
+    throw new Error('no access token from auth server');
   }
   if (responseJson.token_type !== 'Bearer') {
-    return c.redirect(
-      `/?error=${encodeURIComponent('unrecognized token type')}`,
-    );
+    throw new Error('unrecognized token type');
   }
-  /**
-   * TODO: store refresh token.
-   */
-  return c.html(<ClientHome accessToken={accessToken} scope={undefined} />);
+  return c.redirect('/');
 });
 
 app.get('/fetch-resource', async (c) => {
   if (!accessToken) {
-    return c.redirect(`/?error=${encodeURIComponent('no access token found')}`);
+    throw new Error('no access token found');
   }
   const headers = {
     Authorization: 'Bearer ' + accessToken,
@@ -116,17 +107,14 @@ app.get('/fetch-resource', async (c) => {
     /**
      * TODO: use refresh token to get a new access token.
      */
-    return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
+    throw new Error('refresh token logic not implemented');
   }
+
   return c.html(<Data {...responseJson.data} />);
 });
 
-app.get('/', (c) => {
-  const error = c.req.query('error');
-  if (error) {
-    return c.html(<ErrorPage name={pageName} error={error} />);
-  }
-  return c.html(<ClientHome accessToken={undefined} scope={undefined} />);
+app.get('/', async (c) => {
+  return c.html(<ClientHome {...{ accessToken }} />);
 });
 
 app.get('/ping', (c) => {
