@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
 import { Navbar } from '../common/Navbar';
+import { getTheme } from '../common/theme';
 
 interface Prop {
   accessToken?: string;
@@ -9,13 +10,18 @@ interface Prop {
 }
 
 export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
+  const t = getTheme('client');
   return (
-    <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
+    <div
+      className={`bg-${t.mainBg} rounded-lg shadow-xl p-8 space-y-6 border border-${t.mainBorder}`}
+    >
       <div className="space-y-4">
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300 text-lg">Access token value:</span>
+          <span className={`text-${t.labelText} text-lg`}>
+            Access token value:
+          </span>
           <span
-            className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? 'bg-gray-900 text-red-400 border border-gray-600' : 'bg-red-600 text-white'}`}
+            className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? `bg-${t.tokenBg} text-${t.tokenText} border border-${t.tokenBorder}` : `bg-${t.tokenNoneBg} text-${t.tokenNoneText}`}`}
           >
             {accessToken ?? 'NONE'}
           </span>
@@ -23,9 +29,11 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
 
         {refreshToken && (
           <div className="flex items-center space-x-3">
-            <span className="text-gray-300 text-lg">Refresh token value:</span>
+            <span className={`text-${t.labelText} text-lg`}>
+              Refresh token value:
+            </span>
             <span
-              className={`font-mono text-sm px-3 py-1 rounded ${refreshToken ? 'bg-gray-900 text-red-400 border border-gray-600' : 'bg-red-600 text-white'}`}
+              className={`font-mono text-sm px-3 py-1 rounded ${refreshToken ? `bg-${t.tokenBg} text-${t.tokenText} border border-${t.tokenBorder}` : `bg-${t.tokenNoneBg} text-${t.tokenNoneText}`}`}
             >
               {accessToken ?? 'NONE'}
             </span>
@@ -36,13 +44,13 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
       <div className="flex flex-col sm:flex-row gap-4 pt-4">
         <a
           href="/authorize"
-          className="flex-1 bg-blue-600 border-2 border-blue-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-blue-700 hover:border-blue-600 transition-colors shadow-lg"
+          className={`flex-1 bg-${t.primaryButtonBg} border-2 border-${t.primaryButtonBorder} text-${t.primaryButtonText} font-medium py-3 px-6 rounded-md text-center hover:bg-${t.primaryButtonBgHover} hover:border-${t.primaryButtonBorderHover} transition-colors shadow-lg`}
         >
           Get OAuth Token
         </a>
         <a
           href="/fetch-resource"
-          className="flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg bg-green-600 border-2 border-green-500 text-white hover:bg-green-700 hover:border-green-600"
+          className={`flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg bg-${t.secondaryButtonBg} border-2 border-${t.secondaryButtonBorder} text-${t.secondaryButtonText} hover:bg-${t.secondaryButtonBgHover} hover:border-${t.secondaryButtonBorderHover}`}
         >
           Get Protected Resource
         </a>

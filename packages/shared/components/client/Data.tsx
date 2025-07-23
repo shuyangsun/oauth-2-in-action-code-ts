@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
 import { Navbar } from '../common/Navbar';
+import { getTheme } from '../common/theme';
 
 interface Props {
   name?: string;
@@ -8,19 +9,24 @@ interface Props {
 }
 
 export const Data: FC<Props> = (props: Props) => {
+  const t = getTheme('client');
   return (
     <Layout>
       <Navbar oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
+        <div
+          className={`bg-${t.mainBg} rounded-lg shadow-xl p-8 space-y-6 border border-${t.mainBorder}`}
+        >
           <div className="space-y-4">
-            <h2 className="text-gray-300 text-xl font-semibold mb-4">
+            <h2 className={`text-${t.labelText} text-xl font-semibold mb-4`}>
               Data from protected resource:
             </h2>
 
             <div className="mt-6">
-              <pre className="bg-gray-900 text-green-400 p-4 rounded-md border border-gray-600 overflow-x-auto text-sm font-mono">
+              <pre
+                className={`bg-${t.tokenBg} text-${t.codeText} p-4 rounded-md border border-${t.tokenBorder} overflow-x-auto text-sm font-mono`}
+              >
                 {JSON.stringify(props, null, 2)}
               </pre>
             </div>
@@ -29,7 +35,7 @@ export const Data: FC<Props> = (props: Props) => {
           <div className="flex justify-center pt-4">
             <a
               href="/"
-              className="bg-blue-600 border-2 border-blue-500 text-white font-medium py-3 px-6 rounded-md text-center hover:bg-blue-700 hover:border-blue-600 transition-colors shadow-lg"
+              className={`bg-${t.primaryButtonBg} border-2 border-${t.primaryButtonBorder} text-${t.primaryButtonText} font-medium py-3 px-6 rounded-md text-center hover:bg-${t.primaryButtonBgHover} hover:border-${t.primaryButtonBorderHover} transition-colors shadow-lg`}
             >
               Back to Client Home
             </a>
