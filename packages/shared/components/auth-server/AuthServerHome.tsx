@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
 import { Navbar } from '../common/Navbar';
 import { AuthServerConfig, ClientConfig } from '../../model/server-configs';
+import { getTheme } from '../common/theme';
 
 interface Prop {
   authServerConfig: AuthServerConfig;
@@ -13,21 +14,30 @@ const AuthServerInfo: FC<{ config: AuthServerConfig }> = ({
 }: {
   config: AuthServerConfig;
 }) => {
+  const t = getTheme('auth_server');
   return (
-    <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
-      <h2 className="text-2xl font-bold text-white mb-4">
+    <div
+      className={`bg-${t.mainBg} rounded-lg shadow-xl p-8 space-y-6 border border-${t.mainBorder}`}
+    >
+      <h2 className={`text-2xl font-bold text-${t.h2Text} mb-4`}>
         Authorization Server Information
       </h2>
       <div className="space-y-4">
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300 text-sm">Authorization endpoint:</span>
-          <span className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 break-all rounded border border-gray-600">
+          <span className={`text-${t.labelText} text-sm`}>
+            Authorization endpoint:
+          </span>
+          <span
+            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
+          >
             {config.authorizationEndpoint}
           </span>
         </div>
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300 text-sm">Token endpoint:</span>
-          <span className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 break-all rounded border border-gray-600">
+          <span className={`text-${t.labelText} text-sm`}>Token endpoint:</span>
+          <span
+            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
+          >
             {config.tokenEndpoint}
           </span>
         </div>
@@ -40,10 +50,11 @@ const ClientInfo: FC<{
   config: ClientConfig;
 }> = ({ config }: { config: ClientConfig }) => {
   const clientId = `client-${config.clientId}`;
+  const t = getTheme('auth_server');
 
   return (
     <div
-      className="bg-gray-700 rounded-md p-4 space-y-4"
+      className={`bg-${t.cardBg} rounded-md p-4 space-y-4`}
       data-client={clientId}
     >
       <div
@@ -51,13 +62,15 @@ const ClientInfo: FC<{
         onclick={`toggleClient('${clientId}')`}
       >
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300">Client ID:</span>
-          <span className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 rounded border border-gray-600">
+          <span className={`text-${t.labelText}`}>Client ID:</span>
+          <span
+            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 rounded border border-${t.codeInlineBorder}`}
+          >
             {config.clientId}
           </span>
         </div>
         <button
-          className="text-gray-400 hover:text-white transition-colors"
+          className={`text-${t.iconText} hover:text-${t.iconTextHover} transition-colors`}
           aria-label="Toggle details"
         >
           <svg
@@ -91,24 +104,28 @@ const ClientInfo: FC<{
 
       <div className="client-details hidden space-y-4 pt-2">
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300">Client secret:</span>
-          <span className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 break-all rounded border border-gray-600">
+          <span className={`text-${t.labelText}`}>Client secret:</span>
+          <span
+            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
+          >
             {config.clientSecret}
           </span>
         </div>
         <div className="flex items-center space-x-3">
-          <span className="text-gray-300">Scope:</span>
-          <span className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 rounded border border-gray-600">
+          <span className={`text-${t.labelText}`}>Scope:</span>
+          <span
+            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 rounded border border-${t.codeInlineBorder}`}
+          >
             {config.scope}
           </span>
         </div>
         <div className="space-y-2">
-          <span className="text-gray-300">Redirect URIs:</span>
+          <span className={`text-${t.labelText}`}>Redirect URIs:</span>
           <ul className="space-y-2 ml-4">
             {config.redirectUris.map((uri) => (
               <li
                 key={uri}
-                className="font-mono text-sm text-red-400 bg-gray-900 px-3 py-1 block break-all rounded border border-gray-600"
+                className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 block break-all rounded border border-${t.codeInlineBorder}`}
               >
                 {uri}
               </li>
@@ -125,9 +142,12 @@ const ClientsInfo: FC<{ configs: ClientConfig[] }> = ({
 }: {
   configs: ClientConfig[];
 }) => {
+  const t = getTheme('auth_server');
   return (
-    <div className="bg-gray-800 rounded-lg shadow-xl p-8 space-y-6 border border-gray-700">
-      <h2 className="text-2xl font-bold text-white mb-4">
+    <div
+      className={`bg-${t.mainBg} rounded-lg shadow-xl p-8 space-y-6 border border-${t.mainBorder}`}
+    >
+      <h2 className={`text-2xl font-bold text-${t.h2Text} mb-4`}>
         Registered Clients Information
       </h2>
       <div className="space-y-4">

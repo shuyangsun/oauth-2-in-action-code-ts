@@ -31,6 +31,14 @@ export type Theme = {
   noButtonBgHover: string;
   noButtonBorderHover: string;
   codeBlockText: string;
+  checkboxText: string;
+  checkboxFocusRing: string;
+  checkboxBorder: string;
+  h2Text: string;
+  cardBg: string;
+  iconText: string;
+  iconTextHover: string;
+  errorText: string;
 };
 
 const defaultTheme: Theme = {
@@ -64,6 +72,14 @@ const defaultTheme: Theme = {
   noButtonBgHover: 'red-700',
   noButtonBorderHover: 'red-600',
   codeBlockText: 'green-400',
+  checkboxText: 'blue-600',
+  checkboxFocusRing: 'blue-500',
+  checkboxBorder: 'gray-300',
+  h2Text: 'white',
+  cardBg: 'gray-700',
+  iconText: 'gray-400',
+  iconTextHover: 'white',
+  errorText: 'red-400',
 };
 
 export function getTheme(entity: OAuthEntity): Theme {

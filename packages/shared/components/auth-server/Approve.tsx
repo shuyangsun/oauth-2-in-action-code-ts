@@ -26,7 +26,7 @@ const Scope: FC<{ scopes: string[] }> = ({ scopes }: { scopes: string[] }) => {
               value="1"
               id={`scope_${scope}`}
               defaultChecked
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+              className={`h-4 w-4 text-${t.checkboxText} focus:ring-${t.checkboxFocusRing} border-${t.checkboxBorder} rounded cursor-pointer`}
             />
             <label
               htmlFor={`scope_${scope}`}
@@ -59,7 +59,7 @@ export const Approve: FC<Prop> = ({
             <input type="hidden" name="reqid" value={requestId} />
 
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold text-white mb-4">
+              <h2 className={`text-2xl font-bold text-${t.h2Text} mb-4`}>
                 Approve this client?
               </h2>
 
