@@ -126,12 +126,54 @@ const protectedResourceTheme: Theme = {
   errorText: 'rose-400',
 };
 
+const authServerTheme: Theme = {
+  pageBg: 'gray-900',
+  navBg: 'gray-950',
+  navBorder: 'amber-900',
+  navText: 'amber-400',
+  navHomeLinkText: 'white',
+  navHomeLinkBg: 'amber-900',
+  navHomeLinkBgHover: 'amber-800',
+  mainBg: 'gray-800',
+  mainBorder: 'amber-800',
+  labelText: 'amber-300',
+  codeInlineBg: 'gray-900',
+  codeInlineText: 'amber-400',
+  codeInlineBorder: 'amber-800',
+  codeInlineNoneBg: 'amber-900',
+  codeInlineNoneText: 'white',
+  primaryButtonBg: 'amber-800',
+  primaryButtonBorder: 'amber-700',
+  primaryButtonText: 'white',
+  primaryButtonBgHover: 'amber-900',
+  primaryButtonBorderHover: 'amber-800',
+  yesButtonBg: 'emerald-800',
+  yesButtonBorder: 'emerald-700',
+  yesButtonText: 'white',
+  yesButtonBgHover: 'emerald-900',
+  yesButtonBorderHover: 'emerald-800',
+  noButtonBg: 'rose-800',
+  noButtonBorder: 'rose-700',
+  noButtonText: 'white',
+  noButtonBgHover: 'rose-900',
+  noButtonBorderHover: 'rose-800',
+  codeBlockText: 'amber-400',
+  checkboxText: 'amber-800',
+  checkboxFocusRing: 'amber-700',
+  checkboxBorder: 'amber-600',
+  h2Text: 'white',
+  cardBg: 'gray-700',
+  iconText: 'amber-500',
+  iconTextHover: 'amber-300',
+  errorText: 'rose-400',
+};
+
 export function getTheme(entity: OAuthEntity): Theme {
   switch (entity) {
     case 'client':
       return clientTheme;
     case 'auth_server':
-      return clientTheme; // Same as client for now.
+      return authServerTheme;
     case 'protected_resource':
       return protectedResourceTheme;
   }
