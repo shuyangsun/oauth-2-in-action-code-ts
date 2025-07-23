@@ -41,7 +41,7 @@ export type Theme = {
   errorText: string;
 };
 
-const defaultTheme: Theme = {
+const clientTheme: Theme = {
   navBg: 'slate-900',
   navBorder: 'slate-700',
   navText: 'gray-300',
@@ -82,13 +82,54 @@ const defaultTheme: Theme = {
   errorText: 'red-400',
 };
 
+const protectedResourceTheme: Theme = {
+  navBg: 'TODO_LLM',
+  navBorder: 'TODO_LLM',
+  navText: 'TODO_LLM',
+  navHomeLinkText: 'TODO_LLM',
+  navHomeLinkBg: 'TODO_LLM',
+  navHomeLinkBgHover: 'TODO_LLM',
+  mainBg: 'TODO_LLM',
+  mainBorder: 'TODO_LLM',
+  labelText: 'TODO_LLM',
+  codeInlineBg: 'TODO_LLM',
+  codeInlineText: 'TODO_LLM',
+  codeInlineBorder: 'TODO_LLM',
+  codeInlineNoneBg: 'TODO_LLM',
+  codeInlineNoneText: 'TODO_LLM',
+  primaryButtonBg: 'TODO_LLM',
+  primaryButtonBorder: 'TODO_LLM',
+  primaryButtonText: 'TODO_LLM',
+  primaryButtonBgHover: 'TODO_LLM',
+  primaryButtonBorderHover: 'TODO_LLM',
+  yesButtonBg: 'TODO_LLM',
+  yesButtonBorder: 'TODO_LLM',
+  yesButtonText: 'TODO_LLM',
+  yesButtonBgHover: 'TODO_LLM',
+  yesButtonBorderHover: 'TODO_LLM',
+  noButtonBg: 'TODO_LLM',
+  noButtonBorder: 'TODO_LLM',
+  noButtonText: 'TODO_LLM',
+  noButtonBgHover: 'TODO_LLM',
+  noButtonBorderHover: 'TODO_LLM',
+  codeBlockText: 'TODO_LLM',
+  checkboxText: 'TODO_LLM',
+  checkboxFocusRing: 'TODO_LLM',
+  checkboxBorder: 'TODO_LLM',
+  h2Text: 'TODO_LLM',
+  cardBg: 'TODO_LLM',
+  iconText: 'TODO_LLM',
+  iconTextHover: 'TODO_LLM',
+  errorText: 'TODO_LLM',
+};
+
 export function getTheme(entity: OAuthEntity): Theme {
   switch (entity) {
     case 'client':
-      return defaultTheme;
+      return clientTheme;
     case 'auth_server':
-      return defaultTheme;
+      return clientTheme; // Same as client for now.
     case 'protected_resource':
-      return defaultTheme;
+      return protectedResourceTheme;
   }
 }
