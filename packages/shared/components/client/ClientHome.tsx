@@ -21,7 +21,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
             Access token value:
           </span>
           <span
-            className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? `bg-${t.tokenBg} text-${t.tokenText} border border-${t.tokenBorder}` : `bg-${t.tokenNoneBg} text-${t.tokenNoneText}`}`}
+            className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? `bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}` : `bg-${t.codeInlineNoneBg} text-${t.codeInlineNoneText}`}`}
           >
             {accessToken ?? 'NONE'}
           </span>
@@ -33,7 +33,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
               Refresh token value:
             </span>
             <span
-              className={`font-mono text-sm px-3 py-1 rounded ${refreshToken ? `bg-${t.tokenBg} text-${t.tokenText} border border-${t.tokenBorder}` : `bg-${t.tokenNoneBg} text-${t.tokenNoneText}`}`}
+              className={`font-mono text-sm px-3 py-1 rounded ${refreshToken ? `bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}` : `bg-${t.codeInlineNoneBg} text-${t.codeInlineNoneText}`}`}
             >
               {accessToken ?? 'NONE'}
             </span>
@@ -50,7 +50,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
         </a>
         <a
           href="/fetch-resource"
-          className={`flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg bg-${t.secondaryButtonBg} border-2 border-${t.secondaryButtonBorder} text-${t.secondaryButtonText} hover:bg-${t.secondaryButtonBgHover} hover:border-${t.secondaryButtonBorderHover}`}
+          className={`flex-1 font-medium py-3 px-6 rounded-md text-center transition-colors shadow-lg bg-${t.yesButtonBg} border-2 border-${t.yesButtonBorder} text-${t.yesButtonText} hover:bg-${t.yesButtonBgHover} hover:border-${t.yesButtonBorderHover}`}
         >
           Get Protected Resource
         </a>

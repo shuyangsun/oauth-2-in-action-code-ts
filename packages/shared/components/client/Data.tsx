@@ -25,7 +25,7 @@ export const Data: FC<Props> = (props: Props) => {
 
             <div className="mt-6">
               <pre
-                className={`bg-${t.tokenBg} text-${t.codeText} p-4 rounded-md border border-${t.tokenBorder} overflow-x-auto text-sm font-mono`}
+                className={`bg-${t.codeInlineBg} text-${t.codeBlockText} p-4 rounded-md border border-${t.codeInlineBorder} overflow-x-auto text-sm font-mono`}
               >
                 {JSON.stringify(props, null, 2)}
               </pre>

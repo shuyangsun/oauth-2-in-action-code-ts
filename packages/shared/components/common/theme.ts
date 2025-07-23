@@ -10,22 +10,27 @@ export type Theme = {
   mainBg: string;
   mainBorder: string;
   labelText: string;
-  tokenBg: string;
-  tokenText: string;
-  tokenBorder: string;
-  tokenNoneBg: string;
-  tokenNoneText: string;
+  codeInlineBg: string;
+  codeInlineText: string;
+  codeInlineBorder: string;
+  codeInlineNoneBg: string;
+  codeInlineNoneText: string;
   primaryButtonBg: string;
   primaryButtonBorder: string;
   primaryButtonText: string;
   primaryButtonBgHover: string;
   primaryButtonBorderHover: string;
-  secondaryButtonBg: string;
-  secondaryButtonBorder: string;
-  secondaryButtonText: string;
-  secondaryButtonBgHover: string;
-  secondaryButtonBorderHover: string;
-  codeText: string;
+  yesButtonBg: string;
+  yesButtonBorder: string;
+  yesButtonText: string;
+  yesButtonBgHover: string;
+  yesButtonBorderHover: string;
+  noButtonBg: string;
+  noButtonBorder: string;
+  noButtonText: string;
+  noButtonBgHover: string;
+  noButtonBorderHover: string;
+  codeBlockText: string;
 };
 
 const defaultTheme: Theme = {
@@ -38,22 +43,27 @@ const defaultTheme: Theme = {
   mainBg: 'gray-800',
   mainBorder: 'gray-700',
   labelText: 'gray-300',
-  tokenBg: 'gray-900',
-  tokenText: 'red-400',
-  tokenBorder: 'gray-600',
-  tokenNoneBg: 'red-600',
-  tokenNoneText: 'white',
+  codeInlineBg: 'gray-900',
+  codeInlineText: 'red-400',
+  codeInlineBorder: 'gray-600',
+  codeInlineNoneBg: 'red-600',
+  codeInlineNoneText: 'white',
   primaryButtonBg: 'blue-600',
   primaryButtonBorder: 'blue-500',
   primaryButtonText: 'white',
   primaryButtonBgHover: 'blue-700',
   primaryButtonBorderHover: 'blue-600',
-  secondaryButtonBg: 'green-600',
-  secondaryButtonBorder: 'green-500',
-  secondaryButtonText: 'white',
-  secondaryButtonBgHover: 'green-700',
-  secondaryButtonBorderHover: 'green-600',
-  codeText: 'green-400',
+  yesButtonBg: 'green-600',
+  yesButtonBorder: 'green-500',
+  yesButtonText: 'white',
+  yesButtonBgHover: 'green-700',
+  yesButtonBorderHover: 'green-600',
+  noButtonBg: 'red-600',
+  noButtonBorder: 'red-500',
+  noButtonText: 'white',
+  noButtonBgHover: 'red-700',
+  noButtonBorderHover: 'red-600',
+  codeBlockText: 'green-400',
 };
 
 export function getTheme(entity: OAuthEntity): Theme {
