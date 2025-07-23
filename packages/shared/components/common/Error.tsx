@@ -12,7 +12,7 @@ interface Props {
 export const ErrorPage: FC<Props> = ({ oauthEntity, error }: Props) => {
   const t = getTheme(oauthEntity);
   return (
-    <Layout>
+    <Layout oauthEntity={oauthEntity}>
       <Navbar {...{ oauthEntity }} />
 
       <div className="max-w-4xl mx-auto px-6 py-12">

@@ -1,6 +1,14 @@
 import type { FC } from 'hono/jsx';
+import { getTheme } from './theme';
+import { OAuthEntity } from './oauth-entities';
 
-export const Layout: FC = (props) => {
+interface LayoutProps {
+  oauthEntity: OAuthEntity;
+  children: unknown;
+}
+
+export const Layout: FC<LayoutProps> = ({ oauthEntity, children }) => {
+  const t = getTheme(oauthEntity);
   return (
     <html>
       <head>
@@ -12,7 +20,7 @@ export const Layout: FC = (props) => {
         {/* <link href="/src/style.css" rel="stylesheet" /> */}
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
       </head>
-      <body className="min-h-screen bg-slate-800">{props.children}</body>
+      <body className={`min-h-screen bg-${t.pageBg}`}>{children}</body>
     </html>
   );
 };

@@ -11,7 +11,7 @@ interface Props {
 export const Data: FC<Props> = (props: Props) => {
   const t = getTheme('client');
   return (
-    <Layout>
+    <Layout oauthEntity="client">
       <Navbar oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">

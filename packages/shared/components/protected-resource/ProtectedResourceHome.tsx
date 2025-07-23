@@ -6,7 +6,7 @@ import { getTheme } from '../common/theme';
 export const ProtectedResourceHome: FC = () => {
   const t = getTheme('protected_resource');
   return (
-    <Layout>
+    <Layout oauthEntity="protected_resource">
       <Navbar oauthEntity="protected_resource" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">

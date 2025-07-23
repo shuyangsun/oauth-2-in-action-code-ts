@@ -1,6 +1,7 @@
 import { OAuthEntity } from './oauth-entities';
 
 export type Theme = {
+  pageBg: string;
   navBg: string;
   navBorder: string;
   navText: string;
@@ -42,6 +43,7 @@ export type Theme = {
 };
 
 const clientTheme: Theme = {
+  pageBg: 'slate-800',
   navBg: 'slate-900',
   navBorder: 'slate-700',
   navText: 'gray-300',
@@ -83,6 +85,7 @@ const clientTheme: Theme = {
 };
 
 const protectedResourceTheme: Theme = {
+  pageBg: 'gray-900',
   navBg: 'emerald-900',
   navBorder: 'emerald-700',
   navText: 'gray-300',
