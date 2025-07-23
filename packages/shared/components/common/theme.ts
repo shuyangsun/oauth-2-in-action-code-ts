@@ -91,5 +91,4 @@ export function getTheme(entity: OAuthEntity): Theme {
     case 'protected_resource':
       return defaultTheme;
   }
-  return defaultTheme;
 }
