@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx';
-import { getOAuthEntity, OAuthEntity } from '../oauth-entities';
+import { getOAuthEntityName, OAuthEntity } from '../oauth-entities';
 
 const Home = ({
   size = 22,
@@ -100,7 +100,7 @@ export const IconTitle: FC<Props> = ({ entity, active }: Props) => {
           ${active ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}
         `}
       >
-        {getOAuthEntity(entity)}
+        {getOAuthEntityName(entity)}
       </span>
     </>
   );

@@ -1,37 +1,46 @@
-import { ServerStatus } from '../ServerStatus';
 import type { FC } from 'hono/jsx';
-import { getOAuthEntity, OAuthEntity } from '../oauth-entities';
-import { getTheme } from '../theme';
+import { getOAuthEntityURI, OAuthEntity } from '../oauth-entities';
+import { IconTitleWithStatus } from './IconTitleStatus';
 
 interface Props {
   oauthEntity: OAuthEntity;
 }
 
 export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
-  const pageName = getOAuthEntity(oauthEntity);
-  const t = getTheme(oauthEntity);
+  const entities: OAuthEntity[] = [
+    'client',
+    'auth_server',
+    'protected_resource',
+  ];
+
   return (
-    <nav className={`bg-${t.navBg} border-${t.navBorder} border-b`}>
-      <div className="mx-auto px-6 md:px-16 lg:px-20 xl:px-32 py-4">
-        <div
-          className={`flex flex-col md:flex-row md:items-center md:justify-between text-${t.navText} space-y-3 md:space-y-0`}
-        >
-          <div className="flex flex-col md:inline-flex md:flex-row md:items-center space-y-2 md:space-y-0">
-            <span className="text-xl font-light">
-              OAuth in Action:
-              <a
-                href="/"
-                className={`text-xl font-normal text-${t.navHomeLinkText} bg-${t.navHomeLinkBg} px-3 py-1 rounded hover:bg-${t.navHomeLinkBgHover} transition-colors self-start ml-2`}
-              >
-                {pageName}
-              </a>
-            </span>
-          </div>
-          <div className="md:inline">
-            <ServerStatus />
-          </div>
-        </div>
-      </div>
-    </nav>
+    <div className="flex items-center justify-center bg-gray-900 my-6">
+      <nav className="bg-gray-800 rounded-full px-4 py-3 shadow-2xl">
+        <ul className="flex items-center gap-2">
+          {entities.map((entity) => {
+            const active = entity === oauthEntity;
+
+            return (
+              <li key={entity}>
+                <a
+                  href={getOAuthEntityURI(entity)}
+                  className={`
+                    relative flex items-center gap-3 px-4 py-2.5 rounded-full
+                    transition-all duration-300 ease-in-out
+                    ${
+                      active
+                        ? 'bg-gray-900 text-white min-w-[140px]'
+                        : 'bg-transparent text-gray-400 hover:text-gray-200 min-w-[48px]'
+                    }
+                  `}
+                >
+                  <IconTitleWithStatus {...{ entity, active }} />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
   );
 };

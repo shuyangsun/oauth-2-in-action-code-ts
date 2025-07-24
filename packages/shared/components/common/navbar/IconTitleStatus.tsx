@@ -1,18 +1,17 @@
 import type { FC } from 'hono/jsx';
-import { OAuthEntity } from '../oauth-entities';
+import { getOAuthEntityURI, OAuthEntity } from '../oauth-entities';
 import { IconTitle } from './IconTitle';
 
 interface Props {
   entity: OAuthEntity;
   active: boolean;
-  online: boolean;
 }
 
-export const IconTitleWithStatus: FC<Props> = ({
-  entity,
-  active,
-  online,
-}: Props) => {
+export const IconTitleWithStatus: FC<Props> = ({ entity, active }: Props) => {
+  const ping = `${getOAuthEntityURI(entity)}/ping`;
+  // TODO: ping endpoint to get online status.
+  const online = ping.length % 2 === 0;
+
   return (
     <>
       <IconTitle {...{ entity, active }} />
