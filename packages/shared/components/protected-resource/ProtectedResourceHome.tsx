@@ -1,6 +1,6 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
-import { Navbar } from '../common/Navbar';
+import { Navbar } from '../common/navbar/Navbar';
 import { getTheme } from '../common/theme';
 
 export const ProtectedResourceHome: FC = () => {

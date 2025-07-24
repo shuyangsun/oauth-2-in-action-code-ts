@@ -1,6 +1,6 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from './Layout';
-import { Navbar } from './Navbar';
+import { Navbar } from './navbar/Navbar';
 import { OAuthEntity } from './oauth-entities';
 import { getTheme } from './theme';
 

@@ -1,7 +1,7 @@
-import { ServerStatus } from './ServerStatus';
+import { ServerStatus } from '../ServerStatus';
 import type { FC } from 'hono/jsx';
-import { getOAuthEntity, OAuthEntity } from './oauth-entities';
-import { getTheme } from './theme';
+import { getOAuthEntity, OAuthEntity } from '../oauth-entities';
+import { getTheme } from '../theme';
 
 interface Props {
   oauthEntity: OAuthEntity;

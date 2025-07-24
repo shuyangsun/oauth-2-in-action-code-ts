@@ -1,6 +1,6 @@
 import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
-import { Navbar } from '../common/Navbar';
+import { Navbar } from '../common/navbar/Navbar';
 import { ClientConfig } from '../../model/server-configs';
 import { getTheme } from '../common/theme';
 
