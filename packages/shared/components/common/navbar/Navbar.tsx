@@ -34,13 +34,14 @@ export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
                     }
                   `}
                 >
-                  <IconTitleWithStatus {...{ entity, active }} />
+                  <IconTitleWithStatus {...{ entity, active, online: true }} />
                 </a>
               </li>
             );
           })}
         </ul>
       </nav>
+      <script src="/client-scripts/navbar-status-updater.js"></script>
     </div>
   );
 };
