@@ -14,7 +14,7 @@ export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
   ];
 
   return (
-    <div className="flex items-center justify-center bg-gray-900 my-6">
+    <div className="flex items-center justify-center my-6">
       <nav className="bg-gray-800 rounded-full px-3 py-2 shadow-2xl">
         <ul className="flex items-center gap-2">
           {entities.map((entity) => {
