@@ -111,11 +111,15 @@ app.get('/fetch-resource', async (c) => {
   if (responseJson.error) {
     throw new Error(responseJson.error);
   }
-  return c.html(<Data {...responseJson.data} />);
+  return c.html(
+    <Data pageTitle="ch-3-ex-1 (completed)" {...responseJson.data} />,
+  );
 });
 
 app.get('/', async (c) => {
-  return c.html(<ClientHome {...{ accessToken }} />);
+  return c.html(
+    <ClientHome pageTitle="ch-3-ex-1 (completed)" accessToken={accessToken} />,
+  );
 });
 
 app.get('/ping', (c) => {

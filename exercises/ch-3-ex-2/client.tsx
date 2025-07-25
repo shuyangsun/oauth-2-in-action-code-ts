@@ -110,11 +110,11 @@ app.get('/fetch-resource', async (c) => {
     throw new Error('refresh token logic not implemented');
   }
 
-  return c.html(<Data {...responseJson.data} />);
+  return c.html(<Data pageTitle="ch-3-ex-2" {...responseJson.data} />);
 });
 
 app.get('/', async (c) => {
-  return c.html(<ClientHome {...{ accessToken }} />);
+  return c.html(<ClientHome pageTitle="ch-3-ex-2" accessToken={accessToken} />);
 });
 
 app.get('/ping', (c) => {

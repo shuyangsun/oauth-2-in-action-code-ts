@@ -86,7 +86,12 @@ app.get('/authorize', (c) => {
 
     return c.html(
       <Approve
-        {...{ clientConfig: client, requestId: reqid, scopes: reqScopes }}
+        {...{
+          pageTitle: 'ch-3-ex-1',
+          clientConfig: client,
+          requestId: reqid,
+          scopes: reqScopes,
+        }}
       />,
     );
   }
@@ -232,7 +237,9 @@ app.post('/token', async (c) => {
 app.get('/', (c) => {
   return c.html(
     <AuthServerHome
-      {...{ authServerConfig: authServer, clientsConfig: clients }}
+      pageTitle="ch-3-ex-1"
+      authServerConfig={authServer}
+      clientsConfig={clients}
     />,
   );
 });

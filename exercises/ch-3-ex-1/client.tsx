@@ -68,7 +68,7 @@ app.get('/fetch-resource', async (c) => {
 });
 
 app.get('/', async (c) => {
-  return c.html(<ClientHome {...{ accessToken }} />);
+  return c.html(<ClientHome pageTitle="ch-3-ex-1" accessToken={accessToken} />);
 });
 
 app.get('/ping', (c) => {
