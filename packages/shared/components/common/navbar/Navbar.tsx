@@ -15,7 +15,7 @@ export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
 
   return (
     <div className="flex items-center justify-center bg-gray-900 my-6">
-      <nav className="bg-gray-800 rounded-full px-4 py-3 shadow-2xl">
+      <nav className="bg-gray-800 rounded-full px-3 py-2 shadow-2xl">
         <ul className="flex items-center gap-2">
           {entities.map((entity) => {
             const active = entity === oauthEntity;
@@ -25,11 +25,11 @@ export const Navbar: FC<Props> = ({ oauthEntity }: Props) => {
                 <a
                   href={getOAuthEntityURI(entity)}
                   className={`
-                    relative flex items-center gap-3 px-4 py-2.5 rounded-full
+                    relative flex items-center gap-1 px-4 py-2.5 rounded-full
                     transition-all duration-300 ease-in-out
                     ${
                       active
-                        ? 'bg-gray-900 text-white min-w-[140px]'
+                        ? 'bg-gray-900 text-white'
                         : 'bg-transparent text-gray-400 hover:text-gray-200 min-w-[48px]'
                     }
                   `}

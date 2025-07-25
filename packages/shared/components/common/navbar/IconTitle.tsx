@@ -97,7 +97,7 @@ export const IconTitle: FC<Props> = ({ entity, active }: Props) => {
       <span
         className={`
           font-medium transition-all duration-300
-          ${active ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}
+          ${active ? 'opacity-100 w-auto px-2' : 'opacity-0 w-0 overflow-hidden'}
         `}
       >
         {getOAuthEntityName(entity)}
