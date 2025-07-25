@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
 import { Navbar } from '../common/navbar/Navbar';
 import { getTheme } from '../common/theme';
+import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
   accessToken?: string;
@@ -20,11 +21,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
           <span className={`text-${t.labelText} text-lg`}>
             Access token value:
           </span>
-          <span
-            className={`font-mono text-sm px-3 py-1 rounded ${accessToken ? `bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}` : `bg-${t.codeInlineNoneBg} text-${t.codeInlineNoneText}`}`}
-          >
-            {accessToken ?? 'NONE'}
-          </span>
+          <InlineCopy value={accessToken} />
         </div>
 
         {refreshToken && (
