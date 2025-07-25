@@ -6,6 +6,7 @@ import { getTheme } from '../common/theme';
 import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
+  pageTitle: string;
   authServerConfig: AuthServerConfig;
   clientsConfig: ClientConfig[];
 }
@@ -139,12 +140,13 @@ const ClientsInfo: FC<{ configs: ClientConfig[] }> = ({
 };
 
 export const AuthServerHome: FC<Prop> = ({
+  pageTitle,
   authServerConfig,
   clientsConfig,
 }: Prop) => {
   return (
     <Layout oauthEntity="auth_server">
-      <Navbar oauthEntity="auth_server" />
+      <Navbar pageTitle={pageTitle} oauthEntity="auth_server" />
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
         <AuthServerInfo config={authServerConfig} />
         <ClientsInfo configs={clientsConfig} />

@@ -4,11 +4,15 @@ import { Navbar } from '../common/navbar/Navbar';
 import { getTheme } from '../common/theme';
 import { InlineCopy } from '../common/code/InlineCopy';
 
-export const ProtectedResourceHome: FC = () => {
+interface Props {
+  pageTitle: string;
+}
+
+export const ProtectedResourceHome: FC<Props> = ({ pageTitle }: Props) => {
   const t = getTheme('protected_resource');
   return (
     <Layout oauthEntity="protected_resource">
-      <Navbar oauthEntity="protected_resource" />
+      <Navbar pageTitle={pageTitle} oauthEntity="protected_resource" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div

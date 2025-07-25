@@ -6,6 +6,7 @@ import { getTheme } from '../common/theme';
 import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
+  pageTitle: string;
   clientConfig: ClientConfig;
   requestId: string;
   scopes: string[] | undefined;
@@ -43,6 +44,7 @@ const Scope: FC<{ scopes: string[] }> = ({ scopes }: { scopes: string[] }) => {
 };
 
 export const Approve: FC<Prop> = ({
+  pageTitle,
   clientConfig,
   requestId,
   scopes,
@@ -50,7 +52,7 @@ export const Approve: FC<Prop> = ({
   const t = getTheme('auth_server');
   return (
     <Layout oauthEntity="auth_server">
-      <Navbar oauthEntity="auth_server" />
+      <Navbar pageTitle={pageTitle} oauthEntity="auth_server" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div

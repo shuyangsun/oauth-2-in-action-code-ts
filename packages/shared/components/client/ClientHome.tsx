@@ -5,6 +5,7 @@ import { getTheme } from '../common/theme';
 import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
+  pageTitle: string;
   accessToken?: string;
   refreshToken?: string;
   scope?: string;
@@ -55,7 +56,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
 export const ClientHome: FC<Prop> = (prop: Prop) => {
   return (
     <Layout oauthEntity="client">
-      <Navbar oauthEntity="client" />
+      <Navbar pageTitle={prop.pageTitle} oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Main {...prop} />

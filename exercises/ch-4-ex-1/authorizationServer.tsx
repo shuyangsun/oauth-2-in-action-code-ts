@@ -57,7 +57,11 @@ function getClientConfig(
 
 app.get('/', (c) => {
   return c.html(
-    <AuthServerHome authServerConfig={authServer} clientsConfig={clients} />,
+    <AuthServerHome
+      pageTitle="ch-4-ex-1"
+      authServerConfig={authServer}
+      clientsConfig={clients}
+    />,
   );
 });
 
@@ -94,7 +98,12 @@ app.get('/authorize', (c) => {
 
     return c.html(
       <Approve
-        {...{ clientConfig: client, requestId: reqid, scopes: reqScopes }}
+        {...{
+          pageTitle: 'ch-4-ex-1',
+          clientConfig: client,
+          requestId: reqid,
+          scopes: reqScopes,
+        }}
       />,
     );
   }

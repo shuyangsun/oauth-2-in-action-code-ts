@@ -28,7 +28,7 @@ app.use('/*', checkError(oauthEntity));
 app.use('/client-scripts/*', serveStatic({ root: '../../packages/shared' }));
 
 app.get('/', (c) => {
-  return c.html(<ProtectedResourceHome />);
+  return c.html(<ProtectedResourceHome pageTitle="ch-4-ex-1 (completed)" />);
 });
 
 app.get('/ping', (c) => {

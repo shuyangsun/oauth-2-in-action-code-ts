@@ -4,6 +4,7 @@ import { Navbar } from '../common/navbar/Navbar';
 import { getTheme } from '../common/theme';
 
 interface Props {
+  pageTitle: string;
   name?: string;
   description?: string;
 }
@@ -12,7 +13,7 @@ export const Data: FC<Props> = (props: Props) => {
   const t = getTheme('client');
   return (
     <Layout oauthEntity="client">
-      <Navbar oauthEntity="client" />
+      <Navbar pageTitle={props.pageTitle} oauthEntity="client" />
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div

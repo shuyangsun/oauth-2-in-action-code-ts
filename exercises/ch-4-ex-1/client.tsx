@@ -135,11 +135,13 @@ app.get('/fetch-resource', async (c) => {
     return c.redirect(`/?error=${encodeURIComponent(responseJson.error)}`);
   }
 
-  return c.html(<Data {...responseJson.data} />);
+  return c.html(<Data pageTitle="ch-4-ex-1" {...responseJson.data} />);
 });
 
 app.get('/', async (c) => {
-  return c.html(<ClientHome {...{ accessToken, refreshToken }} />);
+  return c.html(
+    <ClientHome {...{ pageTitle: 'ch-4-ex-1', accessToken, refreshToken }} />,
+  );
 });
 
 app.get('/ping', (c) => {
