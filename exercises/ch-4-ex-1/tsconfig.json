@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "shared/*": ["../../packages/shared/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../../packages/shared/**/*",
+    "authorizationServer.tsx",
+    "completed/protectedResource.tsx",
+    "client.tsx",
+    "protectedResource.tsx"
+  ]
+}
