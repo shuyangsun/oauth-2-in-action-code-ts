@@ -1,7 +1,7 @@
 import type { FC } from 'hono/jsx';
 import { getOAuthEntityName, OAuthEntity } from '../oauth-entities';
 
-const Home = ({
+const Browser = ({
   size = 22,
   fill = 'none',
   strokeWidth = 2,
@@ -18,8 +18,9 @@ const Home = ({
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    <polyline points="9 22 9 12 15 12 15 22" />
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+    <line x1="8" y1="21" x2="16" y2="21" />
+    <line x1="12" y1="17" x2="12" y2="21" />
   </svg>
 );
 
@@ -74,10 +75,10 @@ interface Props {
 }
 
 export const IconTitle: FC<Props> = ({ entity, active }: Props) => {
-  let Icon = Home;
+  let Icon = Browser;
   switch (entity) {
     case 'client':
-      Icon = Home;
+      Icon = Browser;
       break;
     case 'auth_server':
       Icon = Lock;
