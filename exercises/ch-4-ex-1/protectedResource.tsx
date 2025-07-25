@@ -1,20 +1,29 @@
 import { Hono } from 'hono';
+import { createMiddleware } from 'hono/factory';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { ProtectedResourceHome } from 'shared/components/protected-resource/ProtectedResourceHome';
-import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
-import { JSONFilePreset } from 'lowdb/node';
-import { getAccessToken } from 'shared/middleware/oauth2-0';
 import { checkError } from 'shared/middleware/error';
 import { ErrorPage } from 'shared/components/common/Error';
 
-// Define the type for context variables
-type Variables = {
-  accessToken?: string;
-};
+/* TODO: uncomment this block as needed
+
+import { DbSchemaCh3Ex2 } from 'shared/model/db-schema';
+import { JSONFilePreset } from 'lowdb/node';
 
 const resource = {
   name: 'Protected Resource',
   description: 'This data has been protected by OAuth 2.0',
+};
+
+const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
+  records: [],
+});
+
+*/
+
+// Define the type for context variables
+type Variables = {
+  accessToken?: string;
 };
 
 const oauthEntity = 'protected_resource';
@@ -35,27 +44,22 @@ app.get('/ping', (c) => {
   return c.text('pong');
 });
 
-const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
-  records: [],
+const getAccessToken = createMiddleware(async (c, next) => {
+  /*
+   * TODO: Scan for an access token on the incoming request.
+   */
+  await next();
 });
 
+/*
+ *  middleware ────────┐
+ *                     ▼
+ */
 app.post('/resource', getAccessToken, async (c) => {
-  if (!c.var.accessToken) {
-    return c.json({ error: 'no_access_token' }, 400);
-  }
-  await nosql.read();
-  const record = nosql.data.records.find(
-    (record) => record.access_token.token === c.var.accessToken,
-  );
-  if (!record) {
-    return c.json({ error: 'no_matching_access_token' }, 400);
-  }
-  if (new Date(record.access_token.expires) < new Date()) {
-    return c.json({ error: 'access_token_expired' }, 400);
-  }
-  return c.json({
-    data: resource,
-  });
+  /*
+   * TODO: Check to see if the access token was found or not
+   */
+  c.json({ error: '/resource endpoint not implemented' });
 });
 
 export default app;

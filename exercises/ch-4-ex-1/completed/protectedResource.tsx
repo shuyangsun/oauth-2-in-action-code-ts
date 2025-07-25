@@ -7,14 +7,18 @@ import { getAccessToken } from 'shared/middleware/oauth2-0';
 import { checkError } from 'shared/middleware/error';
 import { ErrorPage } from 'shared/components/common/Error';
 
-// Define the type for context variables
-type Variables = {
-  accessToken?: string;
-};
-
 const resource = {
   name: 'Protected Resource',
   description: 'This data has been protected by OAuth 2.0',
+};
+
+const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
+  records: [],
+});
+
+// Define the type for context variables
+type Variables = {
+  accessToken?: string;
 };
 
 const oauthEntity = 'protected_resource';
@@ -34,11 +38,6 @@ app.get('/', (c) => {
 app.get('/ping', (c) => {
   return c.text('pong');
 });
-
-const nosql = await JSONFilePreset<DbSchemaCh3Ex2>('database.nosql.json', {
-  records: [],
-});
-
 app.post('/resource', getAccessToken, async (c) => {
   if (!c.var.accessToken) {
     return c.json({ error: 'no_access_token' }, 400);
