@@ -3,6 +3,7 @@ import { Layout } from '../common/Layout';
 import { Navbar } from '../common/navbar/Navbar';
 import { AuthServerConfig, ClientConfig } from '../../model/server-configs';
 import { getTheme } from '../common/theme';
+import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
   authServerConfig: AuthServerConfig;
@@ -27,19 +28,11 @@ const AuthServerInfo: FC<{ config: AuthServerConfig }> = ({
           <span className={`text-${t.labelText} text-sm`}>
             Authorization endpoint:
           </span>
-          <span
-            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
-          >
-            {config.authorizationEndpoint}
-          </span>
+          <InlineCopy value={config.authorizationEndpoint} />
         </div>
         <div className="flex items-center space-x-3">
           <span className={`text-${t.labelText} text-sm`}>Token endpoint:</span>
-          <span
-            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
-          >
-            {config.tokenEndpoint}
-          </span>
+          <InlineCopy value={config.tokenEndpoint} />
         </div>
       </div>
     </div>
@@ -63,11 +56,7 @@ const ClientInfo: FC<{
       >
         <div className="flex items-center space-x-3">
           <span className={`text-${t.labelText}`}>Client ID:</span>
-          <span
-            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 rounded border border-${t.codeInlineBorder}`}
-          >
-            {config.clientId}
-          </span>
+          <InlineCopy value={config.clientId} />
         </div>
         <button
           className={`text-${t.iconText} hover:text-${t.iconTextHover} transition-colors`}
@@ -105,29 +94,18 @@ const ClientInfo: FC<{
       <div className="client-details hidden space-y-4 pt-2">
         <div className="flex items-center space-x-3">
           <span className={`text-${t.labelText}`}>Client secret:</span>
-          <span
-            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 break-all rounded border border-${t.codeInlineBorder}`}
-          >
-            {config.clientSecret}
-          </span>
+          <InlineCopy value={config.clientSecret} />
         </div>
         <div className="flex items-center space-x-3">
           <span className={`text-${t.labelText}`}>Scope:</span>
-          <span
-            className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 rounded border border-${t.codeInlineBorder}`}
-          >
-            {config.scope}
-          </span>
+          <InlineCopy value={config.scope} />
         </div>
         <div className="space-y-2">
           <span className={`text-${t.labelText}`}>Redirect URIs:</span>
           <ul className="space-y-2 ml-4">
             {config.redirectUris.map((uri) => (
-              <li
-                key={uri}
-                className={`font-mono text-sm text-${t.codeInlineText} bg-${t.codeInlineBg} px-3 py-1 block break-all rounded border border-${t.codeInlineBorder}`}
-              >
-                {uri}
+              <li key={uri}>
+                <InlineCopy value={uri} />
               </li>
             ))}
           </ul>

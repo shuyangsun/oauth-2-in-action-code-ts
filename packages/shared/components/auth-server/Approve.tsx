@@ -3,6 +3,7 @@ import { Layout } from '../common/Layout';
 import { Navbar } from '../common/navbar/Navbar';
 import { ClientConfig } from '../../model/server-configs';
 import { getTheme } from '../common/theme';
+import { InlineCopy } from '../common/code/InlineCopy';
 
 interface Prop {
   clientConfig: ClientConfig;
@@ -67,11 +68,7 @@ export const Approve: FC<Prop> = ({
                 <span className={`text-${t.labelText} text-lg`}>
                   Client ID:
                 </span>
-                <span
-                  className={`font-mono text-sm px-3 py-1 rounded bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}`}
-                >
-                  {clientConfig.clientId}
-                </span>
+                <InlineCopy value={clientConfig.clientId} />
               </div>
 
               {scopes && <Scope scopes={scopes} />}

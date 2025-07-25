@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx';
 import { Layout } from '../common/Layout';
 import { Navbar } from '../common/navbar/Navbar';
 import { getTheme } from '../common/theme';
+import { InlineCopy } from '../common/code/InlineCopy';
 
 export const ProtectedResourceHome: FC = () => {
   const t = getTheme('protected_resource');
@@ -26,11 +27,7 @@ export const ProtectedResourceHome: FC = () => {
               </p>
               <div className="flex items-center space-x-3">
                 <span>endpoint</span>
-                <span
-                  className={`font-mono text-sm px-3 py-1 rounded bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}`}
-                >
-                  http://localhost:9002/resource
-                </span>
+                <InlineCopy value="http://localhost:9002/resource" />
               </div>
               <p className={`mt-4 text-${t.iconText}`}>
                 Make sure to include a valid OAuth token in your request.

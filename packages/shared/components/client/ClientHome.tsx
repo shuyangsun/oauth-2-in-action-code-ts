@@ -29,11 +29,7 @@ export const Main: FC<Prop> = ({ accessToken, refreshToken }: Prop) => {
             <span className={`text-${t.labelText} text-lg`}>
               Refresh token value:
             </span>
-            <span
-              className={`font-mono text-sm px-3 py-1 rounded ${refreshToken ? `bg-${t.codeInlineBg} text-${t.codeInlineText} border border-${t.codeInlineBorder}` : `bg-${t.codeInlineNoneBg} text-${t.codeInlineNoneText}`}`}
-            >
-              {accessToken ?? 'NONE'}
-            </span>
+            <InlineCopy value={refreshToken} />
           </div>
         )}
       </div>
